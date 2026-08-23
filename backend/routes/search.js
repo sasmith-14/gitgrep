@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
   }
 
   const filters = {
-    language: req.query.language,
     minStars: req.query.minStars ? parseInt(req.query.minStars) : undefined
   };
 

@@ -10,19 +10,21 @@ async function searchRepos(query, filters = {}) {
     filterClauses.push({ range: { stars: { gte: filters.minStars } } });
   }
 
+  const boolQuery = {
+    must: {
+      multi_match: {
+        query: query,
+        fields: ["name", "description", "readme"]
+      }
+    }
+  };
+  if (filterClauses.length > 0) {
+    boolQuery.filter = filterClauses;
+  }
+
   const result = await client.search({
     index: "repos",
-    query: {
-      bool: {
-        must: {
-          multi_match: {
-            query: query,
-            fields: ["name", "description", "readme"]
-          }
-        },
-        filter: filterClauses
-      }
-    },
+    query: { bool: boolQuery },
     knn: {
       field: "embedding",
       query_vector: embedding,

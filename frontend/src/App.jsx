@@ -97,7 +97,7 @@ function App() {
       )}
 
       {started && (
-        <div className="animate-[fadeIn_0.6s_ease-in-out]" style={{ background: "var(--bg)" }} >
+        <div className="animate-[fadeIn_0.6s_ease-in-out] min-h-screen" style={{ background: "var(--bg)" }} >
       <div className="fixed inset-0 z-0">
         <Topography
           lowColor="#1A1611"

@@ -1,0 +1,85 @@
+{
+  "path": "/api/search?q=fastapi&size=1",
+  "status": 200,
+  "headers": {
+    "x-request-id": "9edcdffd-20d0-4d49-9de9-e105e2bc66a3",
+    "server-timing": "parseMs;dur=1.353, embedMs;dur=336.337, bm25Ms;dur=67.748, knnMs;dur=99.326, fuseMs;dur=6.363"
+  },
+  "body": {
+    "query": {
+      "raw": "fastapi",
+      "text": "fastapi",
+      "parsed": {
+        "lang": null,
+        "minStars": null,
+        "pushedAfter": null,
+        "topics": [],
+        "phrases": [],
+        "exclude": []
+      }
+    },
+    "mode": "hybrid",
+    "page": 1,
+    "size": 1,
+    "total": 50,
+    "tookMs": 462.8717910000123,
+    "degraded": false,
+    "degradedReason": null,
+    "timings": {
+      "parseMs": 1.353333000006387,
+      "embedMs": 336.3366249999963,
+      "bm25Ms": 67.74841700002435,
+      "knnMs": 99.325582999998,
+      "fuseMs": 6.362541999988025
+    },
+    "results": [
+      {
+        "id": "160919119",
+        "fullName": "fastapi/fastapi",
+        "url": "https://github.com/fastapi/fastapi",
+        "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+        "language": "Python",
+        "stars": 100467,
+        "pushedAt": "2026-07-13T19:49:34Z",
+        "topics": [
+          "api",
+          "async",
+          "asyncio",
+          "fastapi",
+          "framework",
+          "json",
+          "json-schema",
+          "openapi",
+          "openapi3",
+          "pydantic",
+          "python",
+          "python-types",
+          "python3",
+          "redoc",
+          "rest",
+          "starlette",
+          "swagger",
+          "swagger-ui",
+          "uvicorn",
+          "web"
+        ],
+        "match": {
+          "heading": "Sponsors / Requirements",
+          "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
+          "highlights": [
+            [
+              0,
+              7
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": 1,
+          "semanticRank": 1,
+          "fusedScore": 0.03278688524590164,
+          "cosine": 0.6585922
+        }
+      }
+    ]
+  }
+}

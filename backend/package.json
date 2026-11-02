@@ -13,7 +13,7 @@
     "test": "tsx --test tests/*.test.ts",
     "lint": "tsc --noEmit",
     "integration": "tsx --test tests/*.integration.ts",
-    "bench": "tsx ../eval/benchmark.ts",
+    "bench": "node ../eval/benchmark.cjs",
     "eval": "tsx ../eval/run.ts"
   },
   "dependencies": {

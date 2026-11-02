@@ -1,0 +1,12 @@
+{
+  "identity": {
+    "fixtureHash": "9d7b9a62ef5b2d28a04183b1385863c1f61542c34ab3b8b2856672d14dbd9315",
+    "labelsHash": "a2e9c6cf601e2b7328772eaa93df68c14ee09611d0ea59a6b273d05ed03e9e1b",
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "esVersion": "9.4.3",
+    "rrfK": 60
+  },
+  "ndcg": 0.823895672037834,
+  "threshold": 0.05
+}

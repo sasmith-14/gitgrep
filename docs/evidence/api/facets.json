@@ -1,0 +1,138 @@
+{
+  "path": "/api/facets",
+  "status": 200,
+  "headers": {
+    "x-request-id": "f24dc524-fc35-4820-8d0a-92eb79a35686",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
+  },
+  "body": {
+    "languages": [
+      {
+        "name": "python",
+        "count": 50
+      }
+    ],
+    "topics": [
+      {
+        "name": "python",
+        "count": 29
+      },
+      {
+        "name": "ai",
+        "count": 9
+      },
+      {
+        "name": "llm",
+        "count": 8
+      },
+      {
+        "name": "hacktoberfest",
+        "count": 6
+      },
+      {
+        "name": "openai",
+        "count": 6
+      },
+      {
+        "name": "framework",
+        "count": 5
+      },
+      {
+        "name": "rag",
+        "count": 5
+      },
+      {
+        "name": "agents",
+        "count": 4
+      },
+      {
+        "name": "chatgpt",
+        "count": 4
+      },
+      {
+        "name": "pytorch",
+        "count": 4
+      },
+      {
+        "name": "web",
+        "count": 4
+      },
+      {
+        "name": "ai-agents",
+        "count": 3
+      },
+      {
+        "name": "claude",
+        "count": 3
+      },
+      {
+        "name": "claude-code",
+        "count": 3
+      },
+      {
+        "name": "cli",
+        "count": 3
+      },
+      {
+        "name": "codex",
+        "count": 3
+      },
+      {
+        "name": "deep-learning",
+        "count": 3
+      },
+      {
+        "name": "development",
+        "count": 3
+      },
+      {
+        "name": "machine-learning",
+        "count": 3
+      },
+      {
+        "name": "multiagent",
+        "count": 3
+      },
+      {
+        "name": "python3",
+        "count": 3
+      },
+      {
+        "name": "anthropic",
+        "count": 2
+      },
+      {
+        "name": "antigravity",
+        "count": 2
+      },
+      {
+        "name": "api",
+        "count": 2
+      },
+      {
+        "name": "artificial-intelligence",
+        "count": 2
+      },
+      {
+        "name": "asyncio",
+        "count": 2
+      },
+      {
+        "name": "awesome",
+        "count": 2
+      },
+      {
+        "name": "copilot",
+        "count": 2
+      },
+      {
+        "name": "data-analysis",
+        "count": 2
+      },
+      {
+        "name": "data-science",
+        "count": 2
+      }
+    ]
+  }
+}

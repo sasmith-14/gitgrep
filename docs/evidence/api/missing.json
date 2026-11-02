@@ -1,0 +1,15 @@
+{
+  "path": "/api/similar/99999999999999999",
+  "status": 404,
+  "headers": {
+    "x-request-id": "fd248742-19e4-4b48-9c51-8edb8d00e66f",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
+  },
+  "body": {
+    "error": {
+      "code": "NOT_FOUND",
+      "message": "Repository or index not found",
+      "retryAfterMs": null
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "q25": "The primary match manim is semantic #1 but absent from the keyword top 10. pandas and pytorch collect votes from both lists on generic terms and move above it. A single strong semantic vote can lose to two weaker votes in RRF.",
+  "q35": "vllm is keyword #1/semantic #2 while whisper is keyword #2/semantic #1. Those reciprocal-rank sums tie exactly; the stable repo-ID tie break places whisper first. RRF discards the lexical score margin, which is useful for this query.",
+  "q13": "youtube-dl is ranked #1 by both modes, but is only grade 1 in these labels; yt-dlp is grade 2 and appears in the semantic top 10 but not the keyword top 10. Fusion drops the preferred alternative below the cutoff. This is also a label-sensitive distinction between two similar tools.",
+  "q45": "langchain is semantic #2 and keyword #9; generic framework matches get stronger agreement. fastapi is keyword #5/semantic #4 and becomes fused #1. The acronym plus broad application/framework wording admits lexical noise; the provisional positives also need owner review.",
+  "q22": "scikit-learn is keyword #2 but absent from the semantic top 10. Broad Python/ML collections overlap in both lists and outrank the specific library after fusion. The rank-only rule cannot preserve the lexical lead when semantic evidence is weak."
+}

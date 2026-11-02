@@ -1,0 +1,118 @@
+{
+  "path": "/api/similar/160919119?size=3",
+  "status": 200,
+  "headers": {
+    "x-request-id": "c7d6fffc-800b-4be8-af6c-898976f6a34a",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=34.731, fuseMs;dur=0.141"
+  },
+  "body": {
+    "query": {
+      "raw": "160919119",
+      "text": "",
+      "parsed": {
+        "lang": null,
+        "minStars": null,
+        "pushedAfter": null,
+        "topics": [],
+        "phrases": [],
+        "exclude": []
+      }
+    },
+    "mode": "semantic",
+    "page": 1,
+    "size": 3,
+    "total": 49,
+    "tookMs": 34.976332999998704,
+    "degraded": false,
+    "degradedReason": null,
+    "timings": {
+      "parseMs": 0,
+      "embedMs": 0,
+      "bm25Ms": 0,
+      "knnMs": 34.73062499999651,
+      "fuseMs": 0.1407500000204891
+    },
+    "results": [
+      {
+        "id": "54346799",
+        "fullName": "public-apis/public-apis",
+        "url": "https://github.com/public-apis/public-apis",
+        "description": "A collective list of free APIs",
+        "language": "Python",
+        "stars": 449911,
+        "pushedAt": "2026-07-13T15:58:22Z",
+        "topics": [
+          "api",
+          "apis",
+          "dataset",
+          "development",
+          "free",
+          "list",
+          "lists",
+          "open-source",
+          "public",
+          "public-api",
+          "public-apis",
+          "resources",
+          "software"
+        ],
+        "match": null,
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 1,
+          "fusedScore": 0.01639344262295082,
+          "cosine": 0.49822180000000005
+        }
+      },
+      {
+        "id": "596892",
+        "fullName": "pallets/flask",
+        "url": "https://github.com/pallets/flask",
+        "description": "The Python micro framework for building web applications.",
+        "language": "Python",
+        "stars": 71923,
+        "pushedAt": "2026-06-10T18:03:29Z",
+        "topics": [
+          "flask",
+          "jinja",
+          "pallets",
+          "python",
+          "web-framework",
+          "werkzeug",
+          "wsgi"
+        ],
+        "match": null,
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 2,
+          "fusedScore": 0.016129032258064516,
+          "cosine": 0.4927473
+        }
+      },
+      {
+        "id": "21289110",
+        "fullName": "vinta/awesome-python",
+        "url": "https://github.com/vinta/awesome-python",
+        "description": "An opinionated list of Python frameworks, libraries, tools, and resources",
+        "language": "Python",
+        "stars": 308070,
+        "pushedAt": "2026-07-14T07:27:15Z",
+        "topics": [
+          "awesome",
+          "collections",
+          "python",
+          "python-frameworks",
+          "python-libraries",
+          "python-tools"
+        ],
+        "match": null,
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 3,
+          "fusedScore": 0.015873015873015872,
+          "cosine": 0.4600987999999999
+        }
+      }
+    ]
+  }
+}

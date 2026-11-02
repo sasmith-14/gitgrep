@@ -1,0 +1,11 @@
+{
+  "path": "/healthz",
+  "status": 200,
+  "headers": {
+    "x-request-id": "07c5ef71-e927-4411-976f-3d8d6e706c9f",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
+  },
+  "body": {
+    "status": "ok"
+  }
+}

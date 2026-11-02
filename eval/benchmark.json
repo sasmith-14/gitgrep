@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-02T09:38:47.626Z",
+  "machine": {
+    "cpu": "Apple M5",
+    "logicalCpus": 10,
+    "memoryGiB": 16,
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v26.8.1",
+    "esHeapBytes": 536870912
+  },
+  "indexBytes": 1365040,
+  "repositories": 50,
+  "model": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "dimension": 384,
+    "ready": true
+  },
+  "query": "tool for building chatbots",
+  "embeddingTimeoutMs": 10000,
+  "durationPerScenarioSeconds": 10,
+  "rows": [
+    {
+      "name": "cold embeddings",
+      "connections": 1,
+      "durationSeconds": 10.01,
+      "requests": 276,
+      "p50": 30.514084,
+      "p95": 62.780708,
+      "p99": 69.830666,
+      "requestsPerSecond": 27.57242757242757,
+      "errors": 0,
+      "non2xx": 0,
+      "events": {
+        "miss": 277
+      }
+    },
+    {
+      "name": "cached embeddings",
+      "connections": 1,
+      "durationSeconds": 10.02,
+      "requests": 521,
+      "p50": 17.666875,
+      "p95": 30.196458,
+      "p99": 31.947583,
+      "requestsPerSecond": 51.99600798403194,
+      "errors": 0,
+      "non2xx": 0,
+      "events": {
+        "hit": 522
+      }
+    },
+    {
+      "name": "cached embeddings",
+      "connections": 8,
+      "durationSeconds": 10.05,
+      "requests": 1190,
+      "p50": 67.0645,
+      "p95": 86.070708,
+      "p99": 110.989958,
+      "requestsPerSecond": 118.40796019900496,
+      "errors": 0,
+      "non2xx": 0,
+      "events": {
+        "hit": 1196
+      }
+    }
+  ]
+}

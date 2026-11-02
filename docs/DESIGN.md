@@ -35,3 +35,11 @@ The tokenizer is a small left-to-right scanner. Last recognized scalar operator 
 I chose TypeScript over checkJs because the original API has three small files; sharing query/result/timing types costs little and catches omissions in a binding response contract. Runtime validation still checks all public parameters. /search is a temporary compatibility endpoint for the unchanged frontend, returning the old ES-shaped array; /api/search follows the new contract.
 
 Node's native fetch rejects port 6000 under its unsafe-port list; the embedding default is 6001. ES 9's vector source omission also required explicit _source_exclude_vectors=false for the similar seed. Both issues were caught by running real endpoints; mocks alone missed them.
+
+## Phase 4 — measurement
+
+I considered synthetic vectors/labels, downloading a large public relevance benchmark, and a deliberately small checked-in corpus with explicit provisional judgments. I chose 50 existing repos and 50 assistant-authored graded query judgments for executable regression tests. The owner must review both positive labels and implicit zeros. These numbers describe this sample only; they are not ground truth or a claim about the planned 4,000-repo corpus. nDCG uses gain 2^grade-1 and log2(rank+1); MRR treats grade>0 as relevant; Recall@10 divides by the nominated relevant repos.
+
+The same raw candidate lists feed keyword, semantic, RRF and a naive 0.5 BM25 + 0.5 ES vector-score baseline. I did not tune weights or k on these labels. Optional cross-encoder and alternative-model experiments are omitted until labels have owner review; extra compute cannot fix uncertain judgments. The regression identity pins fixture/label hashes, model/revision, ES version and RRF k; the gate allows an absolute nDCG decline of 0.05 and fails on identity mismatch.
+
+Benchmark options were a mocked microbenchmark, a rate-limited public API test, or an isolated production app connected to the real upstreams. I chose the last: autocannon, fixed query/scenario, 10-second samples, cache-cold and cache-warm at one connection plus cached at eight. Cold means query-cache miss after model warmup, not a process/model download. The harness verifies no degradation/non-2xx and reports hardware/index size rather than extrapolating production throughput.

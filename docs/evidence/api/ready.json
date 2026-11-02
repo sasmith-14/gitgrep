@@ -1,0 +1,15 @@
+{
+  "path": "/readyz",
+  "status": 200,
+  "headers": {
+    "x-request-id": "4ac4c4fb-a8bd-4a7b-8afb-8a669153e152",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
+  },
+  "body": {
+    "status": "ready",
+    "dependencies": {
+      "elasticsearch": "ok",
+      "embedding": "ok"
+    }
+  }
+}

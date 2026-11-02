@@ -1,0 +1,495 @@
+{
+  "status": "PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED",
+  "judgmentPolicy": "Grades: 2 directly serves the request; 1 related alternative; 0 all other fixture repos for this preliminary closed-corpus experiment. These are assistant judgments, not human ground truth. Review false zeros as well as nominated positives.",
+  "ownerReview": {
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "instructions": "Review all 50 queries and all 50 fixture repos; correct grades and rationale, then rerun make eval. Do not present these metrics as held-out human evaluation."
+  },
+  "queries": [
+    {
+      "id": "q01",
+      "q": "fastapi",
+      "category": "exact",
+      "relevance": {
+        "160919119": 2,
+        "596892": 1,
+        "4164482": 1
+      },
+      "rationale": "Provisional primary match: fastapi/fastapi. Related alternatives: pallets/flask, django/django"
+    },
+    {
+      "id": "q02",
+      "q": "django",
+      "category": "exact",
+      "relevance": {
+        "4164482": 2,
+        "596892": 1
+      },
+      "rationale": "Provisional primary match: django/django. Related alternatives: pallets/flask"
+    },
+    {
+      "id": "q03",
+      "q": "numpy",
+      "category": "exact",
+      "relevance": {
+        "908607": 2,
+        "858127": 1
+      },
+      "rationale": "Provisional primary match: numpy/numpy. Related alternatives: pandas-dev/pandas"
+    },
+    {
+      "id": "q04",
+      "q": "requests",
+      "category": "exact",
+      "relevance": {
+        "1362490": 2
+      },
+      "rationale": "Provisional primary match: psf/requests. Related alternatives: none nominated"
+    },
+    {
+      "id": "q05",
+      "q": "pandas",
+      "category": "exact",
+      "relevance": {
+        "858127": 2,
+        "908607": 1
+      },
+      "rationale": "Provisional primary match: pandas-dev/pandas. Related alternatives: numpy/numpy"
+    },
+    {
+      "id": "q06",
+      "q": "scrapy",
+      "category": "exact",
+      "relevance": {
+        "529502": 2
+      },
+      "rationale": "Provisional primary match: scrapy/scrapy. Related alternatives: none nominated"
+    },
+    {
+      "id": "q07",
+      "q": "flask",
+      "category": "exact",
+      "relevance": {
+        "596892": 2,
+        "160919119": 1
+      },
+      "rationale": "Provisional primary match: pallets/flask. Related alternatives: fastapi/fastapi"
+    },
+    {
+      "id": "q08",
+      "q": "pytorch",
+      "category": "exact",
+      "relevance": {
+        "65600975": 2,
+        "843222": 1
+      },
+      "rationale": "Provisional primary match: pytorch/pytorch. Related alternatives: scikit-learn/scikit-learn"
+    },
+    {
+      "id": "q09",
+      "q": "whisper",
+      "category": "exact",
+      "relevance": {
+        "537603333": 2
+      },
+      "rationale": "Provisional primary match: openai/whisper. Related alternatives: none nominated"
+    },
+    {
+      "id": "q10",
+      "q": "yt-dlp",
+      "category": "exact",
+      "relevance": {
+        "307260205": 2,
+        "1039520": 1
+      },
+      "rationale": "Provisional primary match: yt-dlp/yt-dlp. Related alternatives: ytdl-org/youtube-dl"
+    },
+    {
+      "id": "q11",
+      "q": "tool for building chatbots",
+      "category": "intent",
+      "relevance": {
+        "552661142": 2,
+        "599320067": 1,
+        "701547123": 1,
+        "155220641": 1
+      },
+      "rationale": "Provisional primary match: langchain-ai/langchain. Related alternatives: langflow-ai/langflow, open-webui/open-webui, huggingface/transformers"
+    },
+    {
+      "id": "q12",
+      "q": "transcribe speech recordings",
+      "category": "intent",
+      "relevance": {
+        "537603333": 2
+      },
+      "rationale": "Provisional primary match: openai/whisper. Related alternatives: none nominated"
+    },
+    {
+      "id": "q13",
+      "q": "download videos from websites",
+      "category": "intent",
+      "relevance": {
+        "307260205": 2,
+        "1039520": 1
+      },
+      "rationale": "Provisional primary match: yt-dlp/yt-dlp. Related alternatives: ytdl-org/youtube-dl"
+    },
+    {
+      "id": "q14",
+      "q": "turn documents into markdown",
+      "category": "intent",
+      "relevance": {
+        "888092115": 2
+      },
+      "rationale": "Provisional primary match: microsoft/markitdown. Related alternatives: none nominated"
+    },
+    {
+      "id": "q15",
+      "q": "extract text from scanned images",
+      "category": "intent",
+      "relevance": {
+        "262296122": 2,
+        "888092115": 1
+      },
+      "rationale": "Provisional primary match: PaddlePaddle/PaddleOCR. Related alternatives: microsoft/markitdown"
+    },
+    {
+      "id": "q16",
+      "q": "home automation hub",
+      "category": "intent",
+      "relevance": {
+        "12888993": 2
+      },
+      "rationale": "Provisional primary match: home-assistant/core. Related alternatives: none nominated"
+    },
+    {
+      "id": "q17",
+      "q": "beautiful terminal tables and progress bars",
+      "category": "intent",
+      "relevance": {
+        "220809393": 2,
+        "355959597": 1
+      },
+      "rationale": "Provisional primary match: Textualize/rich. Related alternatives: Textualize/textual"
+    },
+    {
+      "id": "q18",
+      "q": "build terminal user interfaces",
+      "category": "intent",
+      "relevance": {
+        "355959597": 2,
+        "220809393": 1
+      },
+      "rationale": "Provisional primary match: Textualize/textual. Related alternatives: Textualize/rich"
+    },
+    {
+      "id": "q19",
+      "q": "crawl websites and extract structured data",
+      "category": "intent",
+      "relevance": {
+        "529502": 2,
+        "881458615": 1
+      },
+      "rationale": "Provisional primary match: scrapy/scrapy. Related alternatives: browser-use/browser-use"
+    },
+    {
+      "id": "q20",
+      "q": "dataframe analysis toolkit",
+      "category": "intent",
+      "relevance": {
+        "858127": 2,
+        "908607": 1
+      },
+      "rationale": "Provisional primary match: pandas-dev/pandas. Related alternatives: numpy/numpy"
+    },
+    {
+      "id": "q21",
+      "q": "matrix and multidimensional array computing",
+      "category": "synonym",
+      "relevance": {
+        "908607": 2,
+        "65600975": 1
+      },
+      "rationale": "Provisional primary match: numpy/numpy. Related alternatives: pytorch/pytorch"
+    },
+    {
+      "id": "q22",
+      "q": "machine learning classification and regression",
+      "category": "intent",
+      "relevance": {
+        "843222": 2,
+        "65600975": 1
+      },
+      "rationale": "Provisional primary match: scikit-learn/scikit-learn. Related alternatives: pytorch/pytorch"
+    },
+    {
+      "id": "q23",
+      "q": "automate server configuration",
+      "category": "intent",
+      "relevance": {
+        "3638964": 2
+      },
+      "rationale": "Provisional primary match: ansible/ansible. Related alternatives: none nominated"
+    },
+    {
+      "id": "q24",
+      "q": "fix mistyped shell commands",
+      "category": "intent",
+      "relevance": {
+        "33614304": 2
+      },
+      "rationale": "Provisional primary match: nvbn/thefuck. Related alternatives: none nominated"
+    },
+    {
+      "id": "q25",
+      "q": "animate mathematical explanations",
+      "category": "intent",
+      "relevance": {
+        "32689863": 2
+      },
+      "rationale": "Provisional primary match: 3b1b/manim. Related alternatives: none nominated"
+    },
+    {
+      "id": "q26",
+      "q": "asynchronous API server with automatic validation",
+      "category": "synonym",
+      "relevance": {
+        "160919119": 2,
+        "596892": 1
+      },
+      "rationale": "Provisional primary match: fastapi/fastapi. Related alternatives: pallets/flask"
+    },
+    {
+      "id": "q27",
+      "q": "batteries included website framework",
+      "category": "synonym",
+      "relevance": {
+        "4164482": 2,
+        "596892": 1
+      },
+      "rationale": "Provisional primary match: django/django. Related alternatives: pallets/flask"
+    },
+    {
+      "id": "q28",
+      "q": "simple HTTP client library",
+      "category": "intent",
+      "relevance": {
+        "1362490": 2
+      },
+      "rationale": "Provisional primary match: psf/requests. Related alternatives: none nominated"
+    },
+    {
+      "id": "q29",
+      "q": "text to image generation web interface",
+      "category": "intent",
+      "relevance": {
+        "527591471": 2,
+        "589831718": 1
+      },
+      "rationale": "Provisional primary match: AUTOMATIC1111/stable-diffusion-webui. Related alternatives: Comfy-Org/ComfyUI"
+    },
+    {
+      "id": "q30",
+      "q": "node graph for diffusion image workflows",
+      "category": "intent",
+      "relevance": {
+        "589831718": 2,
+        "527591471": 1
+      },
+      "rationale": "Provisional primary match: Comfy-Org/ComfyUI. Related alternatives: AUTOMATIC1111/stable-diffusion-webui"
+    },
+    {
+      "id": "q31",
+      "q": "agent operates a web browser",
+      "category": "intent",
+      "relevance": {
+        "881458615": 2,
+        "614765452": 1
+      },
+      "rationale": "Provisional primary match: browser-use/browser-use. Related alternatives: Significant-Gravitas/AutoGPT"
+    },
+    {
+      "id": "q32",
+      "q": "autonomous general purpose assistant agent",
+      "category": "intent",
+      "relevance": {
+        "1024554267": 2,
+        "614765452": 1
+      },
+      "rationale": "Provisional primary match: NousResearch/hermes-agent. Related alternatives: Significant-Gravitas/AutoGPT"
+    },
+    {
+      "id": "q33",
+      "q": "financial trading agents",
+      "category": "intent",
+      "relevance": {
+        "909213664": 2
+      },
+      "rationale": "Provisional primary match: TauricResearch/TradingAgents. Related alternatives: none nominated"
+    },
+    {
+      "id": "q34",
+      "q": "find social media accounts by username",
+      "category": "intent",
+      "relevance": {
+        "162998479": 2
+      },
+      "rationale": "Provisional primary match: sherlock-project/sherlock. Related alternatives: none nominated"
+    },
+    {
+      "id": "q35",
+      "q": "high throughput large language model inference",
+      "category": "intent",
+      "relevance": {
+        "599547518": 2,
+        "155220641": 1
+      },
+      "rationale": "Provisional primary match: vllm-project/vllm. Related alternatives: huggingface/transformers"
+    },
+    {
+      "id": "q36",
+      "q": "pretrained language models and tokenizers",
+      "category": "intent",
+      "relevance": {
+        "155220641": 2,
+        "908531752": 1
+      },
+      "rationale": "Provisional primary match: huggingface/transformers. Related alternatives: deepseek-ai/DeepSeek-V3"
+    },
+    {
+      "id": "q37",
+      "q": "learn distributed systems architecture interviews",
+      "category": "intent",
+      "relevance": {
+        "83222441": 2
+      },
+      "rationale": "Provisional primary match: donnemartin/system-design-primer. Related alternatives: none nominated"
+    },
+    {
+      "id": "q38",
+      "q": "free books for learning programming",
+      "category": "intent",
+      "relevance": {
+        "13491895": 2,
+        "88011908": 1
+      },
+      "rationale": "Provisional primary match: EbookFoundation/free-programming-books. Related alternatives: practical-tutorials/project-based-learning"
+    },
+    {
+      "id": "q39",
+      "q": "catalog of public APIs",
+      "category": "intent",
+      "relevance": {
+        "54346799": 2
+      },
+      "rationale": "Provisional primary match: public-apis/public-apis. Related alternatives: none nominated"
+    },
+    {
+      "id": "q40",
+      "q": "Python implementation of algorithms",
+      "category": "intent",
+      "relevance": {
+        "63476337": 2,
+        "81598961": 1
+      },
+      "rationale": "Provisional primary match: TheAlgorithms/Python. Related alternatives: python/cpython"
+    },
+    {
+      "id": "q41",
+      "q": "ASR",
+      "category": "acronym",
+      "relevance": {
+        "537603333": 2
+      },
+      "rationale": "Provisional primary match: openai/whisper. Related alternatives: none nominated"
+    },
+    {
+      "id": "q42",
+      "q": "OCR",
+      "category": "acronym",
+      "relevance": {
+        "262296122": 2
+      },
+      "rationale": "Provisional primary match: PaddlePaddle/PaddleOCR. Related alternatives: none nominated"
+    },
+    {
+      "id": "q43",
+      "q": "LLM serving",
+      "category": "acronym",
+      "relevance": {
+        "599547518": 2,
+        "155220641": 1
+      },
+      "rationale": "Provisional primary match: vllm-project/vllm. Related alternatives: huggingface/transformers"
+    },
+    {
+      "id": "q44",
+      "q": "TUI",
+      "category": "acronym",
+      "relevance": {
+        "355959597": 2,
+        "220809393": 1
+      },
+      "rationale": "Provisional primary match: Textualize/textual. Related alternatives: Textualize/rich"
+    },
+    {
+      "id": "q45",
+      "q": "RAG application framework",
+      "category": "acronym",
+      "relevance": {
+        "552661142": 2,
+        "599320067": 1
+      },
+      "rationale": "Provisional primary match: langchain-ai/langchain. Related alternatives: langflow-ai/langflow"
+    },
+    {
+      "id": "q46",
+      "q": "fastpai",
+      "category": "typo",
+      "relevance": {
+        "160919119": 2
+      },
+      "rationale": "Provisional primary match: fastapi/fastapi. Related alternatives: none nominated"
+    },
+    {
+      "id": "q47",
+      "q": "djagno",
+      "category": "typo",
+      "relevance": {
+        "4164482": 2
+      },
+      "rationale": "Provisional primary match: django/django. Related alternatives: none nominated"
+    },
+    {
+      "id": "q48",
+      "q": "pytroch",
+      "category": "typo",
+      "relevance": {
+        "65600975": 2
+      },
+      "rationale": "Provisional primary match: pytorch/pytorch. Related alternatives: none nominated"
+    },
+    {
+      "id": "q49",
+      "q": "beautiful console output",
+      "category": "synonym",
+      "relevance": {
+        "220809393": 2,
+        "355959597": 1
+      },
+      "rationale": "Provisional primary match: Textualize/rich. Related alternatives: Textualize/textual"
+    },
+    {
+      "id": "q50",
+      "q": "visual drag and drop AI workflow builder",
+      "category": "synonym",
+      "relevance": {
+        "599320067": 2,
+        "589831718": 1
+      },
+      "rationale": "Provisional primary match: langflow-ai/langflow. Related alternatives: Comfy-Org/ComfyUI"
+    }
+  ]
+}

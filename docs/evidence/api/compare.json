@@ -1,0 +1,763 @@
+{
+  "path": "/api/compare?q=fastapi",
+  "status": 200,
+  "headers": {
+    "x-request-id": "f5134bd5-4bef-41e1-8925-92a4a2eed9f4",
+    "server-timing": "parseMs;dur=0.179, embedMs;dur=0.106, bm25Ms;dur=26.471, knnMs;dur=76.212, fuseMs;dur=4.738"
+  },
+  "body": {
+    "keyword": [
+      {
+        "id": "160919119",
+        "fullName": "fastapi/fastapi",
+        "url": "https://github.com/fastapi/fastapi",
+        "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+        "language": "Python",
+        "stars": 100467,
+        "pushedAt": "2026-07-13T19:49:34Z",
+        "topics": [
+          "api",
+          "async",
+          "asyncio",
+          "fastapi",
+          "framework",
+          "json",
+          "json-schema",
+          "openapi",
+          "openapi3",
+          "pydantic",
+          "python",
+          "python-types",
+          "python3",
+          "redoc",
+          "rest",
+          "starlette",
+          "swagger",
+          "swagger-ui",
+          "uvicorn",
+          "web"
+        ],
+        "match": {
+          "heading": "Sponsors / Installation",
+          "passage": "create and activate a virtual environment and then install fastapi : $ pip install \" fastapi [ standard ] \" - - - > 100 % note : make sure you put \" fastapi [ standard ] \" in quotes to ensure it works in all terminals.",
+          "highlights": [
+            [
+              59,
+              66
+            ],
+            [
+              85,
+              92
+            ],
+            [
+              149,
+              156
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": 1,
+          "semanticRank": null,
+          "fusedScore": 0.01639344262295082,
+          "cosine": null
+        }
+      },
+      {
+        "id": "1200597263",
+        "fullName": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify",
+        "description": "AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, and more). Turn any folder of code, SQL schemas, R scripts, shell scripts, docs, papers, images, or videos into a queryable knowledge graph. App code + database schema + infrastructure in one graph.",
+        "language": "Python",
+        "stars": 85541,
+        "pushedAt": "2026-07-13T22:21:17Z",
+        "topics": [
+          "antigravity",
+          "claude-code",
+          "codex",
+          "gemini",
+          "graphrag",
+          "knowledge-graph",
+          "leiden",
+          "openclaw",
+          "rag",
+          "skills",
+          "tree-sitter"
+        ],
+        "match": {
+          "heading": "See it in action",
+          "passage": "s built you query it instead of reading files. real output, graphify run on the fastapi codebase shown above : $ graphify explain \" apirouter \" node : apirouter source : routing. py l2210 community : 2 degree : 47 connections ( 47 ) : - - > requestvalidationerror [ uses ] [ inferred ] - - > dependant [ uses ] [ inferred ] - - >. get ( ) [ method ] [ extracted ] < - - _ _ init _ _. py [ imports ] [",
+          "highlights": [
+            [
+              80,
+              87
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": 2,
+          "semanticRank": null,
+          "fusedScore": 0.016129032258064516,
+          "cosine": null
+        }
+      }
+    ],
+    "semantic": [
+      {
+        "id": "160919119",
+        "fullName": "fastapi/fastapi",
+        "url": "https://github.com/fastapi/fastapi",
+        "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+        "language": "Python",
+        "stars": 100467,
+        "pushedAt": "2026-07-13T19:49:34Z",
+        "topics": [
+          "api",
+          "async",
+          "asyncio",
+          "fastapi",
+          "framework",
+          "json",
+          "json-schema",
+          "openapi",
+          "openapi3",
+          "pydantic",
+          "python",
+          "python-types",
+          "python3",
+          "redoc",
+          "rest",
+          "starlette",
+          "swagger",
+          "swagger-ui",
+          "uvicorn",
+          "web"
+        ],
+        "match": {
+          "heading": "Sponsors / Requirements",
+          "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
+          "highlights": [
+            [
+              0,
+              7
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 1,
+          "fusedScore": 0.01639344262295082,
+          "cosine": 0.6585922
+        }
+      },
+      {
+        "id": "770153867",
+        "fullName": "harry0703/MoneyPrinterTurbo",
+        "url": "https://github.com/harry0703/MoneyPrinterTurbo",
+        "description": "利用AI大模型，一键生成高清短视频 Generate short videos with one click using AI LLM.",
+        "language": "Python",
+        "stars": 97335,
+        "pushedAt": "2026-07-14T10:06:09Z",
+        "topics": [
+          "ai",
+          "automation",
+          "chatgpt",
+          "moviepy",
+          "python",
+          "shortvideo",
+          "tiktok"
+        ],
+        "match": {
+          "heading": "MoneyPrinterTurbo 💸 / 功能特性 🎯",
+          "passage": "cloudflare ai gateway 、 modelscope 、 aihubmix 、 aiml api 、 evolink 、 ollama 、 oneapi 、 litellm 、 groq 、 pollinations ai 一 、 合 平 和 本 地 行 [ x ] 一 平 ， 生 成 成 上 tiktok 、 instagram 和 youtube shorts",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 2,
+          "fusedScore": 0.016129032258064516,
+          "cosine": 0.33305465999999995
+        }
+      },
+      {
+        "id": "1200597263",
+        "fullName": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify",
+        "description": "AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, and more). Turn any folder of code, SQL schemas, R scripts, shell scripts, docs, papers, images, or videos into a queryable knowledge graph. App code + database schema + infrastructure in one graph.",
+        "language": "Python",
+        "stars": 85541,
+        "pushedAt": "2026-07-13T22:21:17Z",
+        "topics": [
+          "antigravity",
+          "claude-code",
+          "codex",
+          "gemini",
+          "graphrag",
+          "knowledge-graph",
+          "leiden",
+          "openclaw",
+          "rag",
+          "skills",
+          "tree-sitter"
+        ],
+        "match": {
+          "heading": "See it in action",
+          "passage": "s built you query it instead of reading files. real output, graphify run on the fastapi codebase shown above : $ graphify explain \" apirouter \" node : apirouter source : routing. py l2210 community : 2 degree : 47 connections ( 47 ) : - - > requestvalidationerror [ uses ] [ inferred ] - - > dependant [ uses ] [ inferred ] - - >. get ( ) [ method ] [ extracted ] < - - _ _ init _ _. py [ imports ] [",
+          "highlights": [
+            [
+              80,
+              87
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 3,
+          "fusedScore": 0.015873015873015872,
+          "cosine": 0.31691519999999995
+        }
+      },
+      {
+        "id": "858127",
+        "fullName": "pandas-dev/pandas",
+        "url": "https://github.com/pandas-dev/pandas",
+        "description": "Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures similar to R data.frame objects, statistical functions, and much more",
+        "language": "Python",
+        "stars": 49185,
+        "pushedAt": "2026-07-14T02:55:55Z",
+        "topics": [
+          "alignment",
+          "data-analysis",
+          "data-science",
+          "flexible",
+          "pandas",
+          "python"
+        ],
+        "match": {
+          "heading": "pandas: A Powerful Python Data Analysis Toolkit / Main Features",
+          "passage": "axes ( possible to have multiple labels per tick ) robust i / o tools for loading data from flat files ( csv and delimited ), excel files, databases, and saving / loading data from the ultrafast hdf5 format time series - specific functionality : date range generation and frequency conversion, moving window statistics, date shifting and lagging",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 4,
+          "fusedScore": 0.015625,
+          "cosine": 0.26701365999999993
+        }
+      },
+      {
+        "id": "54346799",
+        "fullName": "public-apis/public-apis",
+        "url": "https://github.com/public-apis/public-apis",
+        "description": "A collective list of free APIs",
+        "language": "Python",
+        "stars": 449911,
+        "pushedAt": "2026-07-13T15:58:22Z",
+        "topics": [
+          "api",
+          "apis",
+          "dataset",
+          "development",
+          "free",
+          "list",
+          "lists",
+          "open-source",
+          "public",
+          "public-api",
+          "public-apis",
+          "resources",
+          "software"
+        ],
+        "match": {
+          "heading": "Try Public APIs for free / APILayer APIs",
+          "passage": "| api | description | call this api | | : - - - | : - - - | : - - - | | ipstack | locate and identify website visitors by ip address | | | marketstack | free, easy - to - use rest api interface delivering worldwide stock market data in json format | | | weatherstack | retrieve instant, accurate weather information for any location in the world in lightweight json format | | | numverify | global ph",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 5,
+          "fusedScore": 0.015384615384615385,
+          "cosine": 0.26245570000000007
+        }
+      },
+      {
+        "id": "88011908",
+        "fullName": "practical-tutorials/project-based-learning",
+        "url": "https://github.com/practical-tutorials/project-based-learning",
+        "description": "Curated list of project-based tutorials",
+        "language": "Python",
+        "stars": 273254,
+        "pushedAt": "2026-07-13T10:06:14Z",
+        "topics": [
+          "beginner-project",
+          "cpp",
+          "golang",
+          "javascript",
+          "project",
+          "python",
+          "tutorial",
+          "webdevelopment"
+        ],
+        "match": {
+          "heading": "Project Based Learning / Clojure:",
+          "passage": "build a twitter bot with clojure building a spell - checker building a jira integration with clojure & atlassian connect prototyping with clojure tetris in clojurescript",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 6,
+          "fusedScore": 0.015151515151515152,
+          "cosine": 0.23362732000000008
+        }
+      },
+      {
+        "id": "701547123",
+        "fullName": "open-webui/open-webui",
+        "url": "https://github.com/open-webui/open-webui",
+        "description": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
+        "language": "Python",
+        "stars": 145374,
+        "pushedAt": "2026-07-14T08:30:48Z",
+        "topics": [
+          "ai",
+          "llm",
+          "llm-ui",
+          "llm-webui",
+          "llms",
+          "mcp",
+          "ollama",
+          "ollama-webui",
+          "open-webui",
+          "openai",
+          "openapi",
+          "rag",
+          "self-hosted",
+          "ui",
+          "webui"
+        ],
+        "match": {
+          "heading": "Open WebUI 👋 / Key Features of Open WebUI ⭐",
+          "passage": "elevenlabs, openai, transformers, webapi ). persistent artifact storage : built - in key - value storage api for artifacts, enabling journals, trackers, leaderboards, and collaborative tools with personal and shared data scopes. local rag integration : retrieval augmented generation backed by 9 vector databases and multiple content - extraction engines ( tika, docling, document intelligence, mistr",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 7,
+          "fusedScore": 0.014925373134328358,
+          "cosine": 0.233603
+        }
+      },
+      {
+        "id": "262296122",
+        "fullName": "PaddlePaddle/PaddleOCR",
+        "url": "https://github.com/PaddlePaddle/PaddleOCR",
+        "description": "Turn any PDF or image document into structured data for your AI. A powerful, lightweight OCR toolkit that bridges the gap between images/PDFs and LLMs. Supports 100+ languages.",
+        "language": "Python",
+        "stars": 85449,
+        "pushedAt": "2026-07-14T08:26:44Z",
+        "topics": [
+          "ai4science",
+          "chineseocr",
+          "document-parsing",
+          "document-translation",
+          "kie",
+          "ocr",
+          "paddleocr-vl",
+          "pdf-extractor-rag",
+          "pdf-parser",
+          "pdf2markdown",
+          "pp-ocr",
+          "pp-structure",
+          "rag"
+        ],
+        "match": {
+          "heading": "🚀 Key Features / 📄 Intelligent Document Parsing (LLM-Ready) / 🛠️ Developer-Centric Ecosystem",
+          "passage": "seamless integration : the premier choice for the ai agent ecosystem — deeply integrated with dify, ragflow, pathway, and cherry studio. llm data flywheel : a complete pipeline to build high - quality datasets, providing a sustainable \" data engine \" for fine - tuning large language models. one - click deployment : supports various hardware backends ( nvidia gpu, intel cpu, kunlunxin xpu, and dive",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 8,
+          "fusedScore": 0.014705882352941176,
+          "cosine": 0.23324012000000005
+        }
+      },
+      {
+        "id": "58028038",
+        "fullName": "521xueweihan/HelloGitHub",
+        "url": "https://github.com/521xueweihan/HelloGitHub",
+        "description": ":octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.",
+        "language": "Python",
+        "stars": 165144,
+        "pushedAt": "2026-06-29T00:35:14Z",
+        "topics": [
+          "awesome",
+          "github",
+          "hellogithub",
+          "python"
+        ],
+        "match": {
+          "heading": "简介 / 内容",
+          "passage": "的 hellogithub 公 | : card _ index : | : jack _ o _ lantern : | : beer : | : fish _ cake : | : octocat : | | - - - - - - - | - - - - - | - - - - - - - - - - - - | - - - - - - | - - - - - - - - - | | 123 | 122 | 121 | | 120 | 119 | 118 | 117 | 116 | | 115 | 114 | 113 | 112 | 111 | | 110 | 109 | 108 | 107 | 106 | | 105 | 104 | 103 | 102 | 101 | | 100 | 99 | 98 | 97 | 96 | | 95 | 94",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 9,
+          "fusedScore": 0.014492753623188406,
+          "cosine": 0.2322668000000001
+        }
+      },
+      {
+        "id": "1174820787",
+        "fullName": "karpathy/autoresearch",
+        "url": "https://github.com/karpathy/autoresearch",
+        "description": "AI agents running research on single-GPU nanochat training automatically",
+        "language": "Python",
+        "stars": 91058,
+        "pushedAt": "2026-03-26T00:07:37Z",
+        "topics": [],
+        "match": {
+          "heading": "autoresearch / License",
+          "passage": "mit",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 10,
+          "fusedScore": 0.014285714285714285,
+          "cosine": 0.2276495999999999
+        }
+      }
+    ],
+    "fused": [
+      {
+        "id": "160919119",
+        "fullName": "fastapi/fastapi",
+        "url": "https://github.com/fastapi/fastapi",
+        "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+        "language": "Python",
+        "stars": 100467,
+        "pushedAt": "2026-07-13T19:49:34Z",
+        "topics": [
+          "api",
+          "async",
+          "asyncio",
+          "fastapi",
+          "framework",
+          "json",
+          "json-schema",
+          "openapi",
+          "openapi3",
+          "pydantic",
+          "python",
+          "python-types",
+          "python3",
+          "redoc",
+          "rest",
+          "starlette",
+          "swagger",
+          "swagger-ui",
+          "uvicorn",
+          "web"
+        ],
+        "match": {
+          "heading": "Sponsors / Requirements",
+          "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
+          "highlights": [
+            [
+              0,
+              7
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": 1,
+          "semanticRank": 1,
+          "fusedScore": 0.03278688524590164,
+          "cosine": 0.6585922
+        }
+      },
+      {
+        "id": "1200597263",
+        "fullName": "Graphify-Labs/graphify",
+        "url": "https://github.com/Graphify-Labs/graphify",
+        "description": "AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini CLI, and more). Turn any folder of code, SQL schemas, R scripts, shell scripts, docs, papers, images, or videos into a queryable knowledge graph. App code + database schema + infrastructure in one graph.",
+        "language": "Python",
+        "stars": 85541,
+        "pushedAt": "2026-07-13T22:21:17Z",
+        "topics": [
+          "antigravity",
+          "claude-code",
+          "codex",
+          "gemini",
+          "graphrag",
+          "knowledge-graph",
+          "leiden",
+          "openclaw",
+          "rag",
+          "skills",
+          "tree-sitter"
+        ],
+        "match": {
+          "heading": "See it in action",
+          "passage": "s built you query it instead of reading files. real output, graphify run on the fastapi codebase shown above : $ graphify explain \" apirouter \" node : apirouter source : routing. py l2210 community : 2 degree : 47 connections ( 47 ) : - - > requestvalidationerror [ uses ] [ inferred ] - - > dependant [ uses ] [ inferred ] - - >. get ( ) [ method ] [ extracted ] < - - _ _ init _ _. py [ imports ] [",
+          "highlights": [
+            [
+              80,
+              87
+            ]
+          ]
+        },
+        "explain": {
+          "keywordRank": 2,
+          "semanticRank": 3,
+          "fusedScore": 0.03200204813108039,
+          "cosine": 0.31691519999999995
+        }
+      },
+      {
+        "id": "770153867",
+        "fullName": "harry0703/MoneyPrinterTurbo",
+        "url": "https://github.com/harry0703/MoneyPrinterTurbo",
+        "description": "利用AI大模型，一键生成高清短视频 Generate short videos with one click using AI LLM.",
+        "language": "Python",
+        "stars": 97335,
+        "pushedAt": "2026-07-14T10:06:09Z",
+        "topics": [
+          "ai",
+          "automation",
+          "chatgpt",
+          "moviepy",
+          "python",
+          "shortvideo",
+          "tiktok"
+        ],
+        "match": {
+          "heading": "MoneyPrinterTurbo 💸 / 功能特性 🎯",
+          "passage": "cloudflare ai gateway 、 modelscope 、 aihubmix 、 aiml api 、 evolink 、 ollama 、 oneapi 、 litellm 、 groq 、 pollinations ai 一 、 合 平 和 本 地 行 [ x ] 一 平 ， 生 成 成 上 tiktok 、 instagram 和 youtube shorts",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 2,
+          "fusedScore": 0.016129032258064516,
+          "cosine": 0.33305465999999995
+        }
+      },
+      {
+        "id": "858127",
+        "fullName": "pandas-dev/pandas",
+        "url": "https://github.com/pandas-dev/pandas",
+        "description": "Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures similar to R data.frame objects, statistical functions, and much more",
+        "language": "Python",
+        "stars": 49185,
+        "pushedAt": "2026-07-14T02:55:55Z",
+        "topics": [
+          "alignment",
+          "data-analysis",
+          "data-science",
+          "flexible",
+          "pandas",
+          "python"
+        ],
+        "match": {
+          "heading": "pandas: A Powerful Python Data Analysis Toolkit / Main Features",
+          "passage": "axes ( possible to have multiple labels per tick ) robust i / o tools for loading data from flat files ( csv and delimited ), excel files, databases, and saving / loading data from the ultrafast hdf5 format time series - specific functionality : date range generation and frequency conversion, moving window statistics, date shifting and lagging",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 4,
+          "fusedScore": 0.015625,
+          "cosine": 0.26701365999999993
+        }
+      },
+      {
+        "id": "54346799",
+        "fullName": "public-apis/public-apis",
+        "url": "https://github.com/public-apis/public-apis",
+        "description": "A collective list of free APIs",
+        "language": "Python",
+        "stars": 449911,
+        "pushedAt": "2026-07-13T15:58:22Z",
+        "topics": [
+          "api",
+          "apis",
+          "dataset",
+          "development",
+          "free",
+          "list",
+          "lists",
+          "open-source",
+          "public",
+          "public-api",
+          "public-apis",
+          "resources",
+          "software"
+        ],
+        "match": {
+          "heading": "Try Public APIs for free / APILayer APIs",
+          "passage": "| api | description | call this api | | : - - - | : - - - | : - - - | | ipstack | locate and identify website visitors by ip address | | | marketstack | free, easy - to - use rest api interface delivering worldwide stock market data in json format | | | weatherstack | retrieve instant, accurate weather information for any location in the world in lightweight json format | | | numverify | global ph",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 5,
+          "fusedScore": 0.015384615384615385,
+          "cosine": 0.26245570000000007
+        }
+      },
+      {
+        "id": "88011908",
+        "fullName": "practical-tutorials/project-based-learning",
+        "url": "https://github.com/practical-tutorials/project-based-learning",
+        "description": "Curated list of project-based tutorials",
+        "language": "Python",
+        "stars": 273254,
+        "pushedAt": "2026-07-13T10:06:14Z",
+        "topics": [
+          "beginner-project",
+          "cpp",
+          "golang",
+          "javascript",
+          "project",
+          "python",
+          "tutorial",
+          "webdevelopment"
+        ],
+        "match": {
+          "heading": "Project Based Learning / Clojure:",
+          "passage": "build a twitter bot with clojure building a spell - checker building a jira integration with clojure & atlassian connect prototyping with clojure tetris in clojurescript",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 6,
+          "fusedScore": 0.015151515151515152,
+          "cosine": 0.23362732000000008
+        }
+      },
+      {
+        "id": "701547123",
+        "fullName": "open-webui/open-webui",
+        "url": "https://github.com/open-webui/open-webui",
+        "description": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
+        "language": "Python",
+        "stars": 145374,
+        "pushedAt": "2026-07-14T08:30:48Z",
+        "topics": [
+          "ai",
+          "llm",
+          "llm-ui",
+          "llm-webui",
+          "llms",
+          "mcp",
+          "ollama",
+          "ollama-webui",
+          "open-webui",
+          "openai",
+          "openapi",
+          "rag",
+          "self-hosted",
+          "ui",
+          "webui"
+        ],
+        "match": {
+          "heading": "Open WebUI 👋 / Key Features of Open WebUI ⭐",
+          "passage": "elevenlabs, openai, transformers, webapi ). persistent artifact storage : built - in key - value storage api for artifacts, enabling journals, trackers, leaderboards, and collaborative tools with personal and shared data scopes. local rag integration : retrieval augmented generation backed by 9 vector databases and multiple content - extraction engines ( tika, docling, document intelligence, mistr",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 7,
+          "fusedScore": 0.014925373134328358,
+          "cosine": 0.233603
+        }
+      },
+      {
+        "id": "262296122",
+        "fullName": "PaddlePaddle/PaddleOCR",
+        "url": "https://github.com/PaddlePaddle/PaddleOCR",
+        "description": "Turn any PDF or image document into structured data for your AI. A powerful, lightweight OCR toolkit that bridges the gap between images/PDFs and LLMs. Supports 100+ languages.",
+        "language": "Python",
+        "stars": 85449,
+        "pushedAt": "2026-07-14T08:26:44Z",
+        "topics": [
+          "ai4science",
+          "chineseocr",
+          "document-parsing",
+          "document-translation",
+          "kie",
+          "ocr",
+          "paddleocr-vl",
+          "pdf-extractor-rag",
+          "pdf-parser",
+          "pdf2markdown",
+          "pp-ocr",
+          "pp-structure",
+          "rag"
+        ],
+        "match": {
+          "heading": "🚀 Key Features / 📄 Intelligent Document Parsing (LLM-Ready) / 🛠️ Developer-Centric Ecosystem",
+          "passage": "seamless integration : the premier choice for the ai agent ecosystem — deeply integrated with dify, ragflow, pathway, and cherry studio. llm data flywheel : a complete pipeline to build high - quality datasets, providing a sustainable \" data engine \" for fine - tuning large language models. one - click deployment : supports various hardware backends ( nvidia gpu, intel cpu, kunlunxin xpu, and dive",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 8,
+          "fusedScore": 0.014705882352941176,
+          "cosine": 0.23324012000000005
+        }
+      },
+      {
+        "id": "58028038",
+        "fullName": "521xueweihan/HelloGitHub",
+        "url": "https://github.com/521xueweihan/HelloGitHub",
+        "description": ":octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.",
+        "language": "Python",
+        "stars": 165144,
+        "pushedAt": "2026-06-29T00:35:14Z",
+        "topics": [
+          "awesome",
+          "github",
+          "hellogithub",
+          "python"
+        ],
+        "match": {
+          "heading": "简介 / 内容",
+          "passage": "的 hellogithub 公 | : card _ index : | : jack _ o _ lantern : | : beer : | : fish _ cake : | : octocat : | | - - - - - - - | - - - - - | - - - - - - - - - - - - | - - - - - - | - - - - - - - - - | | 123 | 122 | 121 | | 120 | 119 | 118 | 117 | 116 | | 115 | 114 | 113 | 112 | 111 | | 110 | 109 | 108 | 107 | 106 | | 105 | 104 | 103 | 102 | 101 | | 100 | 99 | 98 | 97 | 96 | | 95 | 94",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 9,
+          "fusedScore": 0.014492753623188406,
+          "cosine": 0.2322668000000001
+        }
+      },
+      {
+        "id": "1174820787",
+        "fullName": "karpathy/autoresearch",
+        "url": "https://github.com/karpathy/autoresearch",
+        "description": "AI agents running research on single-GPU nanochat training automatically",
+        "language": "Python",
+        "stars": 91058,
+        "pushedAt": "2026-03-26T00:07:37Z",
+        "topics": [],
+        "match": {
+          "heading": "autoresearch / License",
+          "passage": "mit",
+          "highlights": []
+        },
+        "explain": {
+          "keywordRank": null,
+          "semanticRank": 10,
+          "fusedScore": 0.014285714285714285,
+          "cosine": 0.2276495999999999
+        }
+      }
+    ],
+    "tookMs": 82.09333400000469,
+    "degraded": false
+  }
+}

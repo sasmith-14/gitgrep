@@ -1,0 +1,33 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Data (large files)
+data/repos_with_embeddings.json
+
+# Build output
+frontend/dist/
+
+# OS
+.DS_Store
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.env.*
+!.env.example
+!**/.env.example
+data/*
+!data/.gitkeep
+.cache/
+coverage/
+docs/evidence/local/
+eval/runs/

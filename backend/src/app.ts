@@ -19,6 +19,7 @@ export function createApp(config: Config, supplied?: Search) {
   const latency = new Histogram({ name: 'gitgrep_stage_seconds', help: 'Request stage latency', labelNames: ['stage'], buckets: [.001,.005,.01,.025,.05,.1,.25,.5,1,2,5], registers: [registry] });
   const search = supplied ?? new Search(config, undefined, kind => events.inc({ kind }));
   app.disable('x-powered-by');
+  app.set('trust proxy', config.TRUST_PROXY_HOPS);
   app.set('query parser', 'simple');
   app.use((req, res, next) => {
     res.locals.requestId = randomUUID();
@@ -30,7 +31,7 @@ export function createApp(config: Config, supplied?: Search) {
       const route = req.route?.path ?? 'unmatched';
       requests.inc({ route, status: String(res.statusCode) });
       const stages = res.locals.timings as Timings;
-      for (const [stage, ms] of Object.entries(stages)) latency.observe({ stage }, ms / 1000);
+      for (const [stage, ms] of Object.entries(stages)) if (ms > 0) latency.observe({ stage }, ms / 1000);
       latency.observe({ stage: 'total' }, (performance.now() - start) / 1000);
       logger.info({ requestId: res.locals.requestId, method: req.method, route, status: res.statusCode, timings: stages }, 'request');
     });
@@ -78,7 +79,8 @@ export function createApp(config: Config, supplied?: Search) {
     const elasticsearch = es.status === 'fulfilled' && es.value.status !== 'red' ? 'ok' : 'unavailable';
     const embedding = embed.status === 'fulfilled' && embed.value.ready && embed.value.dimension === config.EMBED_DIMENSION ? 'ok' : 'unavailable';
     const ready = elasticsearch === 'ok' && embedding === 'ok';
-    send(res, { status: ready ? 'ready' : 'unavailable', dependencies: { elasticsearch, embedding } }, ready ? 200 : 503);
+    send(res, { status: ready ? 'ready' : 'unavailable', dependencies: { elasticsearch, embedding },
+      ...(ready ? {} : { error: { code: 'INTERNAL', message: 'Dependencies unavailable', retryAfterMs: null } }) }, ready ? 200 : 503);
   });
   app.get('/metrics', async (_req, res) => {
     res.setHeader('Server-Timing', timingHeader(res.locals.timings));

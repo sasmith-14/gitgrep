@@ -106,7 +106,7 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
         queue = [(language, low, high, config['created_start'], config['created_end'])
                  for low, high in config['star_buckets']]
         while queue:
-            count = sum(r.get('language', '').casefold() == language.casefold() for r in state['repos'].values())
+            count = sum((r.get('language') or '').casefold() == language.casefold() for r in state['repos'].values())
             if count >= config['per_language']:
                 break
             shard = queue.pop(0)
@@ -135,7 +135,7 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
                             'stargazers_count', 'pushed_at', 'topics')}
                         state['repos'][key]['readme'] = readme.decode('utf-8', errors='replace')
                         atomic_json(checkpoint, state)
-                    count = sum(r.get('language', '').casefold() == language.casefold() for r in state['repos'].values())
+                    count = sum((r.get('language') or '').casefold() == language.casefold() for r in state['repos'].values())
                     if count >= config['per_language']:
                         break
                 done.add(page_key)

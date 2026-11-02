@@ -1,10 +1,12 @@
 import { z } from 'zod';
 const positive = (n: number) => z.coerce.number().int().positive().default(n);
+const httpUrl = z.string().url().refine(s => ['http:','https:'].includes(new URL(s).protocol));
 const schema = z.object({
-  PORT: positive(5050), ES_URL: z.string().url().default('http://127.0.0.1:9200'),
+  PORT: positive(5050).pipe(z.number().max(65535)), ES_URL: httpUrl.default('http://127.0.0.1:9200'),
   ES_INDEX: z.string().regex(/^[a-z][a-z0-9_-]*$/).default('gitgrep'),
-  ES_API_KEY: z.string().default(''), EMBED_URL: z.string().url().default('http://127.0.0.1:6001'),
-  CORS_ORIGIN: z.string().url().default('http://localhost:5173'),
+  ES_API_KEY: z.string().default(''), EMBED_URL: httpUrl.default('http://127.0.0.1:6001'),
+  TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(1).default(0),
+  CORS_ORIGIN: httpUrl.default('http://localhost:5173'),
   MAX_DEPTH: positive(100).pipe(z.number().max(1000)), RRF_K: positive(60),
   EMBED_DIMENSION: positive(384), EMBED_TIMEOUT_MS: positive(800), ES_TIMEOUT_MS: positive(2000),
   EMBED_CACHE_SIZE: positive(1000), FACET_TTL_MS: positive(60000),

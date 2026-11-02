@@ -28,7 +28,7 @@ export function filters(query: Query, excludeId?: string): Json {
 }
 export function keywordRequest(query: Query, depth: number): Json {
   const match = query.text ? { match: { 'chunks.body': query.text } } : { match_all: {} };
-  return { size: depth, track_total_hits: depth + 1, _source: source,
+  return { size: depth + 1, track_total_hits: depth + 1, _source: source,
     query: { bool: { filter: [filters(query)], should: [
       ...(query.text ? [{ multi_match: { query: query.text, fields: textFields } },
                        { match: { name: { query: query.text, fuzziness: 'AUTO', max_expansions: 10 } } }] : []),
@@ -37,9 +37,9 @@ export function keywordRequest(query: Query, depth: number): Json {
     ], minimum_should_match: 1 } }, sort: ['_score', { id: 'asc' }] };
 }
 export function semanticRequest(query: Query, vector: number[], depth: number, similarId?: string): Json {
-  return { size: depth, track_total_hits: depth + 1, _source: source,
+  return { size: depth + 1, track_total_hits: depth + 1, _source: source,
     knn: { field: similarId ? 'embedding' : 'chunks.embedding', query_vector: vector,
-      k: depth, num_candidates: Math.min(10000, depth * 10), filter: filters(query, similarId),
+      k: depth + 1, num_candidates: Math.min(10000, (depth + 1) * 10), filter: filters(query, similarId),
       ...(similarId ? {} : { inner_hits: { name: 'semantic', size: 1, _source: chunkSource } }),
     }, sort: ['_score', { id: 'asc' }] };
 }

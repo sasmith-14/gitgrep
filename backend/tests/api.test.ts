@@ -99,3 +99,25 @@ test('outbound timeout is sanitized', async () => {
   const upstream = new Upstreams(config, (async () => { throw new DOMException('secret','TimeoutError'); }) as typeof fetch);
   await assert.rejects(upstream.request('/'), (error: any) => error.code === 'UPSTREAM_TIMEOUT' && !error.message.includes('secret'));
 });
+test('startup config rejects non-HTTP URLs and invalid ports',()=>{
+  assert.throws(()=>readConfig({ES_URL:'file:///etc/passwd'}));
+  assert.throws(()=>readConfig({PORT:'65536'}));
+  assert.throws(()=>readConfig({TRUST_PROXY_HOPS:'2'}));
+});
+test('lookahead detects depth cap and pages remain disjoint',async()=>{
+  const c = {...config, MAX_DEPTH:3};
+  const upstream = new Upstreams(c,(async()=>Response.json({hits:{total:{value:4},hits:['1','2','3','4'].map(id=>hit(id))}})) as typeof fetch);
+  const {app}=createApp(c,new Search(c,upstream));
+  const first=await request(app).get('/api/search?q=tool&mode=keyword&size=2');
+  const second=await request(app).get('/api/search?q=tool&mode=keyword&size=2&page=2');
+  assert.equal(first.body.total,3);assert.equal(first.body.totalCapped,true);
+  assert.deepEqual(first.body.results.map((r:any)=>r.id),['1','2']);
+  assert.deepEqual(second.body.results.map((r:any)=>r.id),['3']);
+});
+test('readiness failure reports each dependency and canonical error',async()=>{
+  const {app}=setup(false,true);
+  const response=await request(app).get('/readyz');
+  assert.equal(response.status,503);
+  assert.equal(response.body.dependencies.elasticsearch,'unavailable');
+  assert.equal(response.body.error.code,'INTERNAL');
+});

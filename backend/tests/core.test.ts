@@ -47,5 +47,5 @@ test('RRF matches hand calculation, removes duplicates, and does not depend on r
 test('every constraint is shared by lexical and knn prefilters', () => {
   const query = parseQuery('lang:rust stars:>500 pushed:>2025-01-01 topic:cli "exact phrase" -excluded');
   assert.deepEqual(keywordRequest(query,100).query.bool.filter[0], semanticRequest(query,[1,0],100).knn.filter);
-  assert.equal(semanticRequest(query,[1,0],100).knn.num_candidates,1000);
+  assert.equal(semanticRequest(query,[1,0],100).knn.num_candidates,1010);
 });

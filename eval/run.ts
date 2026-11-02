@@ -38,7 +38,7 @@ async function main() {
   const averages = Object.fromEntries(modes.map(mode=>[mode,Object.fromEntries(['ndcg','mrr','recall'].map(metric=>
     [metric,results.reduce((sum,r)=>sum+r.metrics[mode][metric],0)/results.length]))]));
   const identity = { fixtureHash:hash(read('tests/fixtures/repos.json')),labelsHash:hash(read('eval/queries.json')),
-    model:health.model,revision:health.revision,esVersion:es.version.number,rrfK:config.RRF_K };
+    model:health.model,revision:health.revision,libraries:{'sentence-transformers':health.libraries?.['sentence-transformers'],transformers:health.libraries?.transformers},esVersion:es.version.number,rrfK:config.RRF_K };
   const artifact = { embeddingTimeoutMs:config.EMBED_TIMEOUT_MS, date:new Date().toISOString(),status:labels.status,identity,queries:results.length,documents:indexed.count,averages,results };
   const baselinePath = resolve(root,'eval/baseline.json');
   if (process.argv.includes('--write-baseline')) writeFileSync(baselinePath,JSON.stringify({identity,ndcg:averages['hybrid-RRF'].ndcg,threshold:.05},null,2)+'\n');

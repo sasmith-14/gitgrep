@@ -56,7 +56,7 @@ export class Embeddings {
       while (this.cache.size > c.EMBED_CACHE_SIZE) this.cache.delete(this.cache.keys().next().value!);
       return vector;
     } catch (error) {
-      this.record('error');
+      this.record('embedding_error');
       if (++this.failures >= c.BREAKER_FAILURES) this.openUntil = Date.now() + c.BREAKER_RESET_MS;
       throw error;
     }

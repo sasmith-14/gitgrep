@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from functools import partial
 import threading
+from importlib.metadata import version
 
 from fastapi import FastAPI, Request
 from fastapi.concurrency import run_in_threadpool
@@ -48,7 +49,9 @@ def create_app(model_factory=None, settings=None):
     @app.get("/health")
     def health(request: Request):
         return {"model": settings.model_name, "revision": settings.model_revision,
-                "dimension": settings.embed_dimension, "ready": hasattr(request.app.state, "model")}
+                "dimension": settings.embed_dimension, "ready": hasattr(request.app.state, "model"),
+                "device": str(getattr(request.app.state.model, "device", "unknown")),
+                "libraries": {name: version(name) for name in ("sentence-transformers", "transformers", "torch")}}
 
     @app.post("/embed")
     async def embed(data: TextInput, request: Request):

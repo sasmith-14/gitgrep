@@ -20,7 +20,7 @@ After review, coordinate with other clone owners; then replace the remote's bran
 ```sh
 # Check the actual destination before changing it.
 git remote -v
-git push --force-with-lease origin phase-6-infra:main
+git push --force-with-lease=refs/heads/main:3257ef90897cf19208e3d2eaeaa10d158131b3ce origin phase-6-infra:main
 # Delete obsolete remote branches/tags individually if they retain old blobs.
 # Other clone owners should re-clone, not merge the old history back.
 ```

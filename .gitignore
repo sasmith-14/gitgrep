@@ -31,3 +31,4 @@ data/*
 coverage/
 docs/evidence/local/
 eval/runs/
+backend/dist/

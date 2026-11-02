@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     es_index: str = Field("gitgrep", pattern=r"^[a-z][a-z0-9_-]*$")
     es_api_key: str = ""
     es_timeout_ms: int = Field(2000, ge=1)
-    embed_url: HttpUrl = HttpUrl("http://localhost:6000")
+    embed_url: HttpUrl = HttpUrl("http://localhost:6001")
     embed_timeout_ms: int = Field(30000, ge=1)
     github_api_url: HttpUrl = HttpUrl("https://api.github.com")
     github_token: str = ""

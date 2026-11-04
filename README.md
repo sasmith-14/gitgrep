@@ -131,4 +131,4 @@ Evaluation and benchmarking use a recorded 10-second embedding timeout and rejec
 
 ## License
 
-[MIT](LICENSE) © 2026 Sasmith A Suvarna, except third-party files listed in the LICENSE.
+[MIT](LICENSE) © 2026 Sasmith A Suvarna. Third-party files are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

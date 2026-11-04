@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party code not covered by the license above:
-
-- frontend/src/components/ui/topography.jsx and topography.css: third-party
-  component; see its original source for license terms.
-- frontend/src/components/ui/button.jsx and input.jsx: from shadcn/ui
-  (https://ui.shadcn.com), MIT License.
-- tests/fixtures/repos.json: README excerpts from public GitHub repositories,
-  used as test data; each remains under its own project's license.

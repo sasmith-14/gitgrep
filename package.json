@@ -1,1 +1,9 @@
-{"name":"gitgrep","version":"0.2.0","private":true,"scripts":{"test":"npm --prefix backend test","build":"npm --prefix backend run build"}}
+{
+  "name": "gitgrep",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "test": "npm --prefix backend test",
+    "build": "npm --prefix backend run build"
+  }
+}

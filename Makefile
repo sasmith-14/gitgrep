@@ -2,7 +2,19 @@ UV ?= uv
 COMPOSE ?= docker compose
 EMBED_TIMEOUT_MS ?= 10000
 
-.PHONY: install up down seed rebuild-data eval eval-check eval-baseline bench test lint integration smoke verify
+.DEFAULT_GOAL := help
+
+.PHONY: help install up down seed rebuild-data eval eval-check eval-baseline bench test lint integration smoke verify prod-check audit hygiene outage-check
+help:
+	@printf "%s\n" \
+	  "Local setup:   make install up seed" \
+	  "Checks:        make verify | audit | hygiene" \
+	  "Search eval:   make eval | eval-check | eval-baseline" \
+	  "Load test:     make bench" \
+	  "Operations:    make smoke | outage-check | prod-check" \
+	  "Full corpus:   make rebuild-data  (requires GITHUB_TOKEN)" \
+	  "Stop services: make down  (keeps data volumes)"
+
 install:
 	$(UV) sync --frozen
 	npm ci --prefix backend
@@ -31,31 +43,27 @@ test:
 	$(UV) run --frozen pytest -q
 	npm --prefix backend test
 lint:
-	$(UV) run --frozen ruff check services scripts tests
+	$(UV) run --frozen ruff check services scripts infra/checks tests
 	npm --prefix backend run lint
 integration:
 	npm --prefix backend run integration
 smoke:
-	$(UV) run --frozen python -m scripts.smoke
+	$(UV) run --frozen python -m infra.checks.smoke
 verify: lint test integration smoke eval-check
 
-.PHONY: prod-check
 prod-check:
-	python3 -m scripts.check_prod
+	python3 -m infra.checks.check_prod
 
-.PHONY: audit
 audit:
 	npm audit --prefix backend --audit-level=low
 	mkdir -p .cache
 	$(UV) export --frozen --no-dev --no-emit-project -o .cache/requirements.txt > /dev/null
 	$(UV) tool run --from pip-audit==2.9.0 pip-audit -r .cache/requirements.txt --disable-pip --no-deps
 
-.PHONY: hygiene
 hygiene:
 	test ! -d venv
 	git rev-parse --is-inside-work-tree
 	! git rev-list --objects --all | rg ' (venv/|node_modules/|backend/node_modules/|data/repos(_with_embeddings)?\.json$$)'
 
-.PHONY: outage-check
 outage-check:
-	$(UV) run --frozen python -m scripts.check_degradation
+	$(UV) run --frozen python -m infra.checks.check_degradation

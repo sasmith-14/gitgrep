@@ -13,7 +13,6 @@
 | [Results](../eval/RESULTS.md) | Measured retrieval metrics and five failure cases |
 | [Benchmark](../eval/BENCHMARK.md) | Measured latency, throughput and exact test conditions |
 | [Evidence](evidence/README.md) | Recorded commands and responses, including historical phase runs |
-| [Portfolio](PORTFOLIO.md) | Measured resume bullets and interview questions |
 
 ## Repository map
 

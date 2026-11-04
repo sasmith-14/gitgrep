@@ -6,7 +6,7 @@ Gitgrep combines BM25 keyword retrieval with MiniLM semantic search, then merges
 
 [Beginner architecture guide](ARCHITECTURE.md) · [Illustrated PDF](Gitgrep-Architecture.pdf) · [Quickstart](#quickstart) · [API](docs/API.md) · [Design](docs/DESIGN.md) · [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
-The active local website at [localhost:5174](http://localhost:5174) searches **4,000 public repositories across eight languages**, using balanced retrieval. The checked-in **50-repo Python fixture** remains separate for reproducible tests and relevance evaluation. All quality numbers below refer to that fixture and use provisional labels requiring owner review. [Live dataset, activation and verification](docs/LIVE.md).
+The search has also been run locally on a larger corpus of **4,000 public repositories across eight languages**, using balanced retrieval ([dataset, setup and verification](docs/LIVE.md)). A checked-in **50-repo Python fixture** is kept separate for reproducible tests and relevance evaluation. All quality numbers below refer to that fixture and use provisional relevance labels.
 
 ## Quickstart
 
@@ -21,7 +21,7 @@ make seed
 make verify
 ```
 
-Fresh clones seed the 50-repo fixture and open [localhost:5173](http://localhost:5173). This existing checkout uses the larger corpus on [localhost:5174](http://localhost:5174); follow [LIVE.md](docs/LIVE.md) to reproduce that setup. Try the API directly:
+This seeds the 50-repo fixture and opens the website at [localhost:5173](http://localhost:5173). To build the larger 4,000-repo corpus, follow [LIVE.md](docs/LIVE.md). Try the API directly:
 
 ```sh
 curl -fsS --get http://localhost:5050/api/search \
@@ -128,6 +128,3 @@ Evaluation and benchmarking use a recorded 10-second embedding timeout and rejec
 - Review relevance labels and build a relevance set for the larger corpus. Collection and live activation commands are in [LIVE.md](docs/LIVE.md); keep larger-corpus quality claims separate from fixture metrics.
 - Evaluate optional reranking and an alternate embedding model after label review. CUDA has not been validated; the Linux image uses CPU Torch.
 - Complete frontend API migration and dependency updates before remote browser deployment. Provision VM/DNS/TLS and confirm remote CI results; local checks do not substitute for those steps.
-- If using a clone from before the history cleanup, re-clone. [Cleanup evidence](docs/evidence/phase-1.md) records the removed artifacts and original remote tip.
-
-For interviews, [the portfolio handoff](docs/PORTFOLIO.md) contains five measured resume bullets and six design questions with candid answers.

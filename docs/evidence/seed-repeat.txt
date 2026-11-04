@@ -1,0 +1,61 @@
+$ make seed
+uv run --frozen python -m scripts.generate_embeddings --input tests/fixtures/repos.json
+W1104 09:47:59.929000 17044 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 17460.73it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+embed 1 public-apis/public-apis chunks=8 new_vectors=0
+embed 2 EbookFoundation/free-programming-books chunks=9 new_vectors=0
+embed 3 donnemartin/system-design-primer chunks=13 new_vectors=0
+embed 4 vinta/awesome-python chunks=12 new_vectors=0
+embed 5 practical-tutorials/project-based-learning chunks=9 new_vectors=0
+embed 6 TheAlgorithms/Python chunks=4 new_vectors=0
+embed 7 NousResearch/hermes-agent chunks=13 new_vectors=0
+embed 8 Significant-Gravitas/AutoGPT chunks=22 new_vectors=0
+embed 9 yt-dlp/yt-dlp chunks=9 new_vectors=0
+embed 10 microsoft/markitdown chunks=21 new_vectors=0
+embed 11 521xueweihan/HelloGitHub chunks=4 new_vectors=0
+embed 12 AUTOMATIC1111/stable-diffusion-webui chunks=19 new_vectors=0
+embed 13 huggingface/transformers chunks=10 new_vectors=0
+embed 14 anthropics/skills chunks=10 new_vectors=0
+embed 15 langflow-ai/langflow chunks=12 new_vectors=0
+embed 16 open-webui/open-webui chunks=13 new_vectors=0
+embed 17 langchain-ai/langchain chunks=6 new_vectors=0
+embed 18 ytdl-org/youtube-dl chunks=13 new_vectors=0
+embed 19 anthropics/claude-code chunks=8 new_vectors=0
+embed 20 github/spec-kit chunks=20 new_vectors=0
+embed 21 Comfy-Org/ComfyUI chunks=12 new_vectors=0
+embed 22 Shubhamsaboo/awesome-llm-apps chunks=11 new_vectors=0
+embed 23 nextlevelbuilder/ui-ux-pro-max-skill chunks=10 new_vectors=0
+embed 24 openai/whisper chunks=13 new_vectors=0
+embed 25 browser-use/browser-use chunks=13 new_vectors=0
+embed 26 deepseek-ai/DeepSeek-V3 chunks=21 new_vectors=0
+embed 27 pytorch/pytorch chunks=15 new_vectors=0
+embed 28 fastapi/fastapi chunks=13 new_vectors=0
+embed 29 nvbn/thefuck chunks=18 new_vectors=0
+embed 30 harry0703/MoneyPrinterTurbo chunks=6 new_vectors=0
+embed 31 hacksider/Deep-Live-Cam chunks=21 new_vectors=0
+embed 32 TauricResearch/TradingAgents chunks=17 new_vectors=0
+embed 33 karpathy/autoresearch chunks=14 new_vectors=0
+embed 34 home-assistant/core chunks=3 new_vectors=0
+embed 35 3b1b/manim chunks=11 new_vectors=0
+embed 36 django/django chunks=4 new_vectors=0
+embed 37 pallets/flask chunks=4 new_vectors=0
+embed 38 psf/requests chunks=5 new_vectors=0
+embed 39 scrapy/scrapy chunks=5 new_vectors=0
+embed 40 pandas-dev/pandas chunks=13 new_vectors=0
+embed 41 numpy/numpy chunks=5 new_vectors=0
+embed 42 ansible/ansible chunks=10 new_vectors=0
+embed 43 scikit-learn/scikit-learn chunks=16 new_vectors=0
+embed 44 python/cpython chunks=17 new_vectors=0
+embed 45 Textualize/rich chunks=15 new_vectors=0
+embed 46 Textualize/textual chunks=9 new_vectors=0
+embed 47 sherlock-project/sherlock chunks=7 new_vectors=0
+embed 48 vllm-project/vllm chunks=10 new_vectors=0
+embed 49 Graphify-Labs/graphify chunks=13 new_vectors=0
+embed 50 PaddlePaddle/PaddleOCR chunks=9 new_vectors=0
+uv run --frozen python -m scripts.indexing_repos
+{"index": "gitgrep-v1", "documents": 50, "changed": 0, "failed": 0}
+
+Exit code: 0

@@ -2,8 +2,8 @@
   "path": "/api/search?q=fastapi&size=1",
   "status": 200,
   "headers": {
-    "x-request-id": "9edcdffd-20d0-4d49-9de9-e105e2bc66a3",
-    "server-timing": "parseMs;dur=1.353, embedMs;dur=336.337, bm25Ms;dur=67.748, knnMs;dur=99.326, fuseMs;dur=6.363"
+    "x-request-id": "b389224b-5242-4b85-9bd1-1ee0f9fdfb09",
+    "server-timing": "parseMs;dur=1.775, embedMs;dur=10.771, bm25Ms;dur=10.305, knnMs;dur=17.420, fuseMs;dur=3.224"
   },
   "body": {
     "query": {
@@ -22,15 +22,15 @@
     "page": 1,
     "size": 1,
     "total": 50,
-    "tookMs": 462.8717910000123,
+    "tookMs": 34.41958199999499,
     "degraded": false,
     "degradedReason": null,
     "timings": {
-      "parseMs": 1.353333000006387,
-      "embedMs": 336.3366249999963,
-      "bm25Ms": 67.74841700002435,
-      "knnMs": 99.325582999998,
-      "fuseMs": 6.362541999988025
+      "parseMs": 1.7751659999994445,
+      "embedMs": 10.770875000001979,
+      "bm25Ms": 10.305249999997613,
+      "knnMs": 17.419832999999926,
+      "fuseMs": 3.2244580000042333
     },
     "results": [
       {
@@ -64,7 +64,7 @@
           "web"
         ],
         "match": {
-          "heading": "Sponsors / Requirements",
+          "heading": "Requirements",
           "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
           "highlights": [
             [

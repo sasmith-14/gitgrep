@@ -2,8 +2,8 @@
   "path": "/api/search?q=fastapi&size=51",
   "status": 400,
   "headers": {
-    "x-request-id": "daeaf018-8820-49f7-8aaf-0c49c35e2273",
-    "server-timing": "parseMs;dur=0.236, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
+    "x-request-id": "98962bf5-46ba-4bb5-99a9-2d5ba5c2afdc",
+    "server-timing": "parseMs;dur=0.133, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
   },
   "body": {
     "error": {

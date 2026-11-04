@@ -2,7 +2,7 @@
   "path": "/api/facets",
   "status": 200,
   "headers": {
-    "x-request-id": "f24dc524-fc35-4820-8d0a-92eb79a35686",
+    "x-request-id": "ca017dc0-323d-4540-9fee-25feb978c527",
     "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
   },
   "body": {

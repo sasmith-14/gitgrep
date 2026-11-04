@@ -2,8 +2,8 @@
   "path": "/api/search?q=lang:Rust&size=50",
   "status": 200,
   "headers": {
-    "x-request-id": "9b4c0a28-9914-4bef-bf6e-ff6266b43269",
-    "server-timing": "parseMs;dur=0.079, embedMs;dur=16.161, bm25Ms;dur=7.242, knnMs;dur=7.005, fuseMs;dur=0.009"
+    "x-request-id": "f72a6712-cefa-4154-a41e-d2312e845b93",
+    "server-timing": "parseMs;dur=0.115, embedMs;dur=6.076, bm25Ms;dur=2.780, knnMs;dur=2.685, fuseMs;dur=0.006"
   },
   "body": {
     "query": {
@@ -22,15 +22,15 @@
     "page": 1,
     "size": 50,
     "total": 0,
-    "tookMs": 23.541165999980876,
+    "tookMs": 9.013542000000598,
     "degraded": false,
     "degradedReason": null,
     "timings": {
-      "parseMs": 0.07937500000116415,
-      "embedMs": 16.16112500001327,
-      "bm25Ms": 7.242291000002297,
-      "knnMs": 7.005291999987094,
-      "fuseMs": 0.009083000011742115
+      "parseMs": 0.11508400000457186,
+      "embedMs": 6.075957999993989,
+      "bm25Ms": 2.7795829999959096,
+      "knnMs": 2.685416999993322,
+      "fuseMs": 0.005708000004233327
     },
     "results": []
   }

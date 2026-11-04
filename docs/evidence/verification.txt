@@ -1,0 +1,185 @@
+Final verification UTC: 2026-11-04T04:10:44.139460+00:00
+
+Command: make verify
+uv run --frozen ruff check services scripts tests
+All checks passed!
+npm --prefix backend run lint
+
+> gitgrep-api@0.2.0 lint
+> tsc --noEmit
+
+uv run --frozen pytest -q
+......                                                                   [100%]
+6 passed in 0.31s
+npm --prefix backend test
+
+> gitgrep-api@0.2.0 test
+> tsx --test tests/*.test.ts
+
+(node:16306) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ search contract, cached embedding, headers and legacy route (26.168875ms)
+✔ semantic failure falls back to keyword and hides internal messages (3.660625ms)
+✔ validation, compare, similar, cached facets, readiness and metrics (7.502417ms)
+✔ rate limit has contract error and Retry-After (1.219708ms)
+✔ embedding cache bounds, circuit opening and one half-open probe (16.447709ms)
+✔ outbound timeout is sanitized (0.166459ms)
+✔ startup config rejects non-HTTP URLs and invalid ports (0.467583ms)
+✔ lookahead detects depth cap and pages remain disjoint (1.92975ms)
+✔ readiness failure reports each dependency and canonical error (0.941542ms)
+(node:16307) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ tokenizer handles operators, quotes, exclusions, empty values and unknown operators (1.566ms)
+✔ explicit parameters override operators, duplicates are deterministic and limits reject bad input (1.187666ms)
+✔ property: arbitrary Unicode/quotes terminate, retain raw and produce bounded text (8.607416ms)
+✔ RRF matches hand calculation, removes duplicates, and does not depend on raw score scales (0.400833ms)
+✔ every constraint is shared by lexical and knn prefilters (0.227875ms)
+(node:16308) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ eval metrics match a hand-ranked relevance list (1.046042ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 324.429375
+npm --prefix backend run integration
+
+> gitgrep-api@0.2.0 integration
+> tsx --test tests/*.integration.ts
+
+(node:16329) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ real ES: prefiltered semantic/keyword counts equal exhaustive fixture check (677.582833ms)
+✔ real ES: quoted phrases and exclusions prefilter both lists (149.419208ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 924.911292
+uv run --frozen python -m scripts.smoke
+200 /api/search?q=fastapi&size=1
+200 /api/compare?q=fastapi
+200 /api/similar/160919119?size=3
+200 /api/facets
+200 /healthz
+200 /readyz
+200 /metrics
+400 /api/search?q=fastapi&size=51
+404 /api/similar/99999999999999999
+200 /api/search?q=lang:Rust&size=50
+EMBED_TIMEOUT_MS=10000 npm --prefix backend run eval -- --check
+
+> gitgrep-api@0.2.0 eval
+> tsx ../eval/run.ts --check
+
+(node:16351) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+# Fixture evaluation
+
+Run: 2026-11-04T04:10:48.685Z. Embedding timeout 10000 ms. 50 queries, 50 repositories. **PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED**. Labels are provisional assistant judgments, not human ground truth. Unlisted repos count as zero for this experiment, so recall is only relative to nominated positives. Owner review is required in queries.json. This tiny Python-only sample is a correctness/regression fixture, not evidence of generalization.
+
+Reproduce: `make eval` after `make seed`. CI: `make eval-check` (absolute nDCG tolerance 0.05 against reviewed-in baseline identity).
+
+| Mode | nDCG@10 | MRR@10 | Recall@10 |
+|---|---:|---:|---:|
+| keyword | 0.7784 | 0.8381 | 0.7917 |
+| semantic | 0.8034 | 0.8407 | 0.9067 |
+| hybrid-RRF | 0.8239 | 0.8683 | 0.8967 |
+| weighted-score | 0.8084 | 0.8547 | 0.8717 |
+| hybrid+rerank | not run | not run | not run |
+| alternative model | not run | not run | not run |
+
+Weighted baseline adds 0.5×raw BM25 + 0.5×ES cosine score on the same candidate lists. It has no per-query normalization or tuned weight. RRF k=60. Optional cross-encoder and alternative model were omitted pending owner-reviewed labels; no quality benefit is claimed.
+
+## Failure analysis
+
+- **animate mathematical explanations**: keyword 0.0000, semantic 1.0000, RRF 0.5000. Lexical #1: pandas-dev/pandas; semantic #1: 3b1b/manim; fused #1: pytorch/pytorch. The primary match manim is semantic #1 but absent from the keyword top 10. pandas and pytorch collect votes from both lists on generic terms and move above it. A single strong semantic vote can lose to two weaker votes in RRF.
+- **high throughput large language model inference**: keyword 0.9639, semantic 0.6194, RRF 0.6399. Lexical #1: vllm-project/vllm; semantic #1: openai/whisper; fused #1: openai/whisper. vllm is keyword #1/semantic #2 while whisper is keyword #2/semantic #1. Those reciprocal-rank sums tie exactly; the stable repo-ID tie break places whisper first. RRF discards the lexical score margin, which is useful for this query.
+- **download videos from websites**: keyword 0.2754, semantic 0.5697, RRF 0.2754. Lexical #1: ytdl-org/youtube-dl; semantic #1: ytdl-org/youtube-dl; fused #1: ytdl-org/youtube-dl. youtube-dl is ranked #1 by both modes, but is only grade 1 in these labels; yt-dlp is grade 2 and appears in the semantic top 10 but not the keyword top 10. Fusion drops the preferred alternative below the cutoff. This is also a label-sensitive distinction between two similar tools.
+- **RAG application framework**: keyword 0.2487, semantic 0.6131, RRF 0.3558. Lexical #1: Shubhamsaboo/awesome-llm-apps; semantic #1: open-webui/open-webui; fused #1: fastapi/fastapi. langchain is semantic #2 and keyword #9; generic framework matches get stronger agreement. fastapi is keyword #5/semantic #4 and becomes fused #1. The acronym plus broad application/framework wording admits lexical noise; the provisional positives also need owner review.
+- **machine learning classification and regression**: keyword 0.6131, semantic 0.1065, RRF 0.3735. Lexical #1: practical-tutorials/project-based-learning; semantic #1: vinta/awesome-python; fused #1: vinta/awesome-python. scikit-learn is keyword #2 but absent from the semantic top 10. Broad Python/ML collections overlap in both lists and outrank the specific library after fusion. The rank-only rule cannot preserve the lexical lead when semantic evidence is weak.
+
+## Provenance
+
+Model: sentence-transformers/all-MiniLM-L6-v2@c9745ed1d9f207416be6d2e6f8de32d1f16199bf. ES 9.4.3. Fixture SHA256 9d7b9a62ef5b2d28a04183b1385863c1f61542c34ab3b8b2856672d14dbd9315; labels SHA256 a2e9c6cf601e2b7328772eaa93df68c14ee09611d0ea59a6b273d05ed03e9e1b. Recorded per-query rankings: eval/fixture-run.json; latest local run is also in eval/runs/latest.json.
+
+
+Exit status: 0
+
+Command: make hygiene
+test ! -d venv
+git rev-parse --is-inside-work-tree
+true
+! git rev-list --objects --all | rg ' (venv/|node_modules/|backend/node_modules/|data/repos(_with_embeddings)?\.json$)'
+
+Exit status: 0
+
+Command: make audit
+npm audit --prefix backend --audit-level=low
+found 0 vulnerabilities
+mkdir -p .cache
+uv export --frozen --no-dev --no-emit-project -o .cache/requirements.txt > /dev/null
+uv tool run --from pip-audit==2.9.0 pip-audit -r .cache/requirements.txt --disable-pip --no-deps
+Downloading pip (1.9MiB)
+ Downloaded pip
+Installed 27 packages in 38ms
+WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies
+WARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes
+No known vulnerabilities found
+
+Exit status: 0
+
+Command: make outage-check
+uv run --frozen python -m scripts.check_degradation
+ Container gitgrep-embedding-1 Stopping 
+ Container gitgrep-embedding-1 Stopped 
+ Container gitgrep-embedding-1 Starting 
+ Container gitgrep-embedding-1 Started 
+ Container gitgrep-embedding-1 Waiting 
+ Container gitgrep-embedding-1 Healthy 
+embedding stopped: search=200, keyword result present, degraded=true, readiness=503
+embedding restored: search=200, degraded=false, readiness=200
+
+Exit status: 0
+
+Command: make prod-check
+python3 -m scripts.check_prod
+production ES: anonymous=401, read key search=200, read key write=403
+
+Exit status: 0
+
+Command: npm --prefix frontend run build
+
+> frontend@0.0.0 build
+> vite build
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - `__dirname` (vite.config.js:10:25). Use `import.meta.dirname` instead
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.2.1 building client environment for production...
+[2Ktransforming...Found 1 warning while optimizing generated CSS:
+
+[2m│   }[22m
+[2m│ }[22m
+[2m│[22m @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+[2m┆[22m        [33m[2m^--[22m @import rules must precede all rules aside from @charset and @layer statements[39m
+[2m┆[22m
+[2m│ :root {[22m
+[2m│   --bg: #0D0D0C;[22m
+
+✓ 82 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:  0.29 kB
+dist/assets/index-mWWv2nV9.css   18.23 kB │ gzip:  4.49 kB
+dist/assets/index-BmOA5V2Q.js   252.35 kB │ gzip: 78.29 kB
+
+✓ built in 115ms
+
+Exit status: 0

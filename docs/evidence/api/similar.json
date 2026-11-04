@@ -2,8 +2,8 @@
   "path": "/api/similar/160919119?size=3",
   "status": 200,
   "headers": {
-    "x-request-id": "c7d6fffc-800b-4be8-af6c-898976f6a34a",
-    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=34.731, fuseMs;dur=0.141"
+    "x-request-id": "33f031d5-6b9f-415f-afc8-4c5827305176",
+    "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=8.921, fuseMs;dur=0.067"
   },
   "body": {
     "query": {
@@ -22,15 +22,15 @@
     "page": 1,
     "size": 3,
     "total": 49,
-    "tookMs": 34.976332999998704,
+    "tookMs": 9.012166999993497,
     "degraded": false,
     "degradedReason": null,
     "timings": {
       "parseMs": 0,
       "embedMs": 0,
       "bm25Ms": 0,
-      "knnMs": 34.73062499999651,
-      "fuseMs": 0.1407500000204891
+      "knnMs": 8.920708999998169,
+      "fuseMs": 0.06662499999947613
     },
     "results": [
       {

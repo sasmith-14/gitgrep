@@ -2,7 +2,7 @@
   "path": "/readyz",
   "status": 200,
   "headers": {
-    "x-request-id": "4ac4c4fb-a8bd-4a7b-8afb-8a669153e152",
+    "x-request-id": "19c58121-12b2-48b6-8be4-4f84b6b2a956",
     "server-timing": "parseMs;dur=0.000, embedMs;dur=0.000, bm25Ms;dur=0.000, knnMs;dur=0.000, fuseMs;dur=0.000"
   },
   "body": {

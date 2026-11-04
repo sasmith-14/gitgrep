@@ -2,8 +2,8 @@
   "path": "/api/compare?q=fastapi",
   "status": 200,
   "headers": {
-    "x-request-id": "f5134bd5-4bef-41e1-8925-92a4a2eed9f4",
-    "server-timing": "parseMs;dur=0.179, embedMs;dur=0.106, bm25Ms;dur=26.471, knnMs;dur=76.212, fuseMs;dur=4.738"
+    "x-request-id": "994b2cc4-9463-4343-8b63-0d5b2d851300",
+    "server-timing": "parseMs;dur=0.043, embedMs;dur=0.030, bm25Ms;dur=6.719, knnMs;dur=16.649, fuseMs;dur=4.771"
   },
   "body": {
     "keyword": [
@@ -38,7 +38,7 @@
           "web"
         ],
         "match": {
-          "heading": "Sponsors / Installation",
+          "heading": "Installation",
           "passage": "create and activate a virtual environment and then install fastapi : $ pip install \" fastapi [ standard ] \" - - - > 100 % note : make sure you put \" fastapi [ standard ] \" in quotes to ensure it works in all terminals.",
           "highlights": [
             [
@@ -133,7 +133,7 @@
           "web"
         ],
         "match": {
-          "heading": "Sponsors / Requirements",
+          "heading": "Requirements",
           "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
           "highlights": [
             [
@@ -175,7 +175,7 @@
           "keywordRank": null,
           "semanticRank": 2,
           "fusedScore": 0.016129032258064516,
-          "cosine": 0.33305465999999995
+          "cosine": 0.3330548
         }
       },
       {
@@ -241,7 +241,7 @@
           "keywordRank": null,
           "semanticRank": 4,
           "fusedScore": 0.015625,
-          "cosine": 0.26701365999999993
+          "cosine": 0.2670136000000001
         }
       },
       {
@@ -306,7 +306,7 @@
           "keywordRank": null,
           "semanticRank": 6,
           "fusedScore": 0.015151515151515152,
-          "cosine": 0.23362732000000008
+          "cosine": 0.23362740000000004
         }
       },
       {
@@ -370,7 +370,7 @@
           "rag"
         ],
         "match": {
-          "heading": "🚀 Key Features / 📄 Intelligent Document Parsing (LLM-Ready) / 🛠️ Developer-Centric Ecosystem",
+          "heading": "🚀 Key Features / 🛠️ Developer-Centric Ecosystem",
           "passage": "seamless integration : the premier choice for the ai agent ecosystem — deeply integrated with dify, ragflow, pathway, and cherry studio. llm data flywheel : a complete pipeline to build high - quality datasets, providing a sustainable \" data engine \" for fine - tuning large language models. one - click deployment : supports various hardware backends ( nvidia gpu, intel cpu, kunlunxin xpu, and dive",
           "highlights": []
         },
@@ -396,7 +396,7 @@
           "python"
         ],
         "match": {
-          "heading": "简介 / 内容",
+          "heading": "内容",
           "passage": "的 hellogithub 公 | : card _ index : | : jack _ o _ lantern : | : beer : | : fish _ cake : | : octocat : | | - - - - - - - | - - - - - | - - - - - - - - - - - - | - - - - - - | - - - - - - - - - | | 123 | 122 | 121 | | 120 | 119 | 118 | 117 | 116 | | 115 | 114 | 113 | 112 | 111 | | 110 | 109 | 108 | 107 | 106 | | 105 | 104 | 103 | 102 | 101 | | 100 | 99 | 98 | 97 | 96 | | 95 | 94",
           "highlights": []
         },
@@ -425,7 +425,7 @@
           "keywordRank": null,
           "semanticRank": 10,
           "fusedScore": 0.014285714285714285,
-          "cosine": 0.2276495999999999
+          "cosine": 0.22764968000000008
         }
       }
     ],
@@ -461,7 +461,7 @@
           "web"
         ],
         "match": {
-          "heading": "Sponsors / Requirements",
+          "heading": "Requirements",
           "passage": "fastapi stands on the shoulders of giants : starlette for the web parts. pydantic for the data parts.",
           "highlights": [
             [
@@ -541,7 +541,7 @@
           "keywordRank": null,
           "semanticRank": 2,
           "fusedScore": 0.016129032258064516,
-          "cosine": 0.33305465999999995
+          "cosine": 0.3330548
         }
       },
       {
@@ -569,7 +569,7 @@
           "keywordRank": null,
           "semanticRank": 4,
           "fusedScore": 0.015625,
-          "cosine": 0.26701365999999993
+          "cosine": 0.2670136000000001
         }
       },
       {
@@ -634,7 +634,7 @@
           "keywordRank": null,
           "semanticRank": 6,
           "fusedScore": 0.015151515151515152,
-          "cosine": 0.23362732000000008
+          "cosine": 0.23362740000000004
         }
       },
       {
@@ -698,7 +698,7 @@
           "rag"
         ],
         "match": {
-          "heading": "🚀 Key Features / 📄 Intelligent Document Parsing (LLM-Ready) / 🛠️ Developer-Centric Ecosystem",
+          "heading": "🚀 Key Features / 🛠️ Developer-Centric Ecosystem",
           "passage": "seamless integration : the premier choice for the ai agent ecosystem — deeply integrated with dify, ragflow, pathway, and cherry studio. llm data flywheel : a complete pipeline to build high - quality datasets, providing a sustainable \" data engine \" for fine - tuning large language models. one - click deployment : supports various hardware backends ( nvidia gpu, intel cpu, kunlunxin xpu, and dive",
           "highlights": []
         },
@@ -724,7 +724,7 @@
           "python"
         ],
         "match": {
-          "heading": "简介 / 内容",
+          "heading": "内容",
           "passage": "的 hellogithub 公 | : card _ index : | : jack _ o _ lantern : | : beer : | : fish _ cake : | : octocat : | | - - - - - - - | - - - - - | - - - - - - - - - - - - | - - - - - - | - - - - - - - - - | | 123 | 122 | 121 | | 120 | 119 | 118 | 117 | 116 | | 115 | 114 | 113 | 112 | 111 | | 110 | 109 | 108 | 107 | 106 | | 105 | 104 | 103 | 102 | 101 | | 100 | 99 | 98 | 97 | 96 | | 95 | 94",
           "highlights": []
         },
@@ -753,11 +753,11 @@
           "keywordRank": null,
           "semanticRank": 10,
           "fusedScore": 0.014285714285714285,
-          "cosine": 0.2276495999999999
+          "cosine": 0.22764968000000008
         }
       }
     ],
-    "tookMs": 82.09333400000469,
+    "tookMs": 21.691584000000148,
     "degraded": false
   }
 }

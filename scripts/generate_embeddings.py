@@ -24,7 +24,7 @@ def generate(source, destination, cache_path=".cache/embeddings.sqlite"):
         chunks = chunk_readme(repo.get("readme") or "", model.tokenizer)
         intro = next((body for _, body in sections(repo.get('readme') or '')), '')
         metadata = f"{repo['full_name']} {repo.get('description') or ''} {' '.join(repo.get('topics') or [])}"
-        summary_tokens = model.tokenizer.encode(metadata + ' ' + intro, add_special_tokens=False)[:220]
+        summary_tokens = model.tokenizer.encode(metadata + ' ' + intro, add_special_tokens=False, truncation=True, max_length=220)
         summary = model.tokenizer.decode(summary_tokens, skip_special_tokens=True)
         if not chunks:
             chunks = [{"heading": "Overview", "body": metadata}]

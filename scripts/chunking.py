@@ -43,7 +43,7 @@ def chunk_readme(markdown, tokenizer, size=220, overlap=32):
         raise ValueError("chunk size must exceed overlap")
     chunks = []
     for heading, text in sections(markdown):
-        tokens = tokenizer.encode(text, add_special_tokens=False)
+        tokens = tokenizer.encode(text, add_special_tokens=False, verbose=False)
         for start in range(0, len(tokens), size - overlap):
             passage = tokenizer.decode(tokens[start:start + size], skip_special_tokens=True).strip()
             if passage:

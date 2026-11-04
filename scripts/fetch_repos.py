@@ -98,6 +98,8 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
     Path(checkpoint).parent.mkdir(parents=True, exist_ok=True)
     state = json.loads(Path(checkpoint).read_text()) if Path(checkpoint).exists() and not refresh else {
         'configHash': fingerprint, 'done': [], 'repos': {}}
+    if any(repo.get('private') is not False for repo in state['repos'].values()):
+        raise ValueError('Checkpoint visibility is unknown; use --refresh or a new checkpoint')
     if state['configHash'] != fingerprint:
         raise ValueError('config changed: use --refresh or a different checkpoint')
     github = GitHub(Settings(), str(Path(checkpoint).with_suffix('.sqlite')))
@@ -111,7 +113,7 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
                 break
             shard = queue.pop(0)
             lang, low, high, start, end = shard
-            query = f'language:"{lang}" stars:{low}..{high} created:{start}..{end} fork:false'
+            query = f'language:"{lang}" stars:{low}..{high} created:{start}..{end} fork:false is:public'
             first = github.get('/search/repositories', {'q': query, 'per_page': 100, 'page': 1, 'sort': 'stars'})
             if first.get('incomplete_results'):
                 raise RuntimeError('GitHub returned incomplete_results; retry this checkpoint')
@@ -127,11 +129,13 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
                 if response.get('incomplete_results'):
                     raise RuntimeError('incomplete page; checkpoint retained')
                 for repo in response['items']:
+                    if repo.get('private') is not False:
+                        raise RuntimeError('Refusing to checkpoint a non-public or unknown-visibility repository')
                     key = str(repo['id'])
                     if key not in state['repos']:
                         readme = github.get('/repos/' + repo['full_name'] + '/readme', raw=True)
                         state['repos'][key] = {field: repo.get(field) for field in (
-                            'id', 'name', 'full_name', 'html_url', 'description', 'language',
+                            'id', 'name', 'full_name', 'html_url', 'description', 'language', 'private',
                             'stargazers_count', 'pushed_at', 'topics')}
                         state['repos'][key]['readme'] = readme.decode('utf-8', errors='replace')
                         atomic_json(checkpoint, state)

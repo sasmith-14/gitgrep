@@ -65,3 +65,25 @@ def test_github_etag_rate_limit_and_resume_cache(tmp_path):
     assert waits == [1]
     github.client.close()
     github.cache.close()
+
+
+def test_collector_rejects_private_repos_before_checkpoint(monkeypatch, tmp_path):
+    import scripts.fetch_repos as fetch
+
+    class GitHub:
+        def __init__(self, *_):
+            pass
+
+        def get(self, path, params):
+            assert path == '/search/repositories'
+            assert 'is:public' in params['q']
+            return {'total_count': 1, 'items': [{'id': 1, 'private': True}]}
+
+    monkeypatch.setattr(fetch, 'GitHub', GitHub)
+    config = tmp_path / 'config.json'
+    config.write_text(json.dumps({'languages': list('abcdefgh'), 'star_buckets': [[100, 100]],
+                                 'created_start': '2025-01-01', 'created_end': '2025-01-01', 'per_language': 1}))
+    checkpoint, output = tmp_path / 'checkpoint.json', tmp_path / 'repos.json'
+    with pytest.raises(RuntimeError, match='non-public'):
+        fetch.collect(config, checkpoint, output)
+    assert not checkpoint.exists() and not output.exists()

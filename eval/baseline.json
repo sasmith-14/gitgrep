@@ -4,6 +4,10 @@
     "labelsHash": "a2e9c6cf601e2b7328772eaa93df68c14ee09611d0ea59a6b273d05ed03e9e1b",
     "model": "sentence-transformers/all-MiniLM-L6-v2",
     "revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "libraries": {
+      "sentence-transformers": "6.2.0",
+      "transformers": "5.22.1"
+    },
     "esVersion": "9.4.3",
     "rrfK": 60
   },

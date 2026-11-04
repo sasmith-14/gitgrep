@@ -1,6 +1,6 @@
 # Fixture evaluation
 
-Run: 2026-11-02T09:40:29.642Z. Embedding timeout 10000 ms. 50 queries, 50 repositories. **PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED**. Labels are provisional assistant judgments, not human ground truth. Unlisted repos count as zero for this experiment, so recall is only relative to nominated positives. Owner review is required in queries.json. This tiny Python-only sample is a correctness/regression fixture, not evidence of generalization.
+Run: 2026-11-04T04:10:48.685Z. Embedding timeout 10000 ms. 50 queries, 50 repositories. **PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED**. Labels are provisional assistant judgments, not human ground truth. Unlisted repos count as zero for this experiment, so recall is only relative to nominated positives. Owner review is required in queries.json. This tiny Python-only sample is a correctness/regression fixture, not evidence of generalization.
 
 Reproduce: `make eval` after `make seed`. CI: `make eval-check` (absolute nDCG tolerance 0.05 against reviewed-in baseline identity).
 
@@ -25,4 +25,4 @@ Weighted baseline adds 0.5×raw BM25 + 0.5×ES cosine score on the same candidat
 
 ## Provenance
 
-Model: sentence-transformers/all-MiniLM-L6-v2@c9745ed1d9f207416be6d2e6f8de32d1f16199bf. ES 9.4.3. Fixture SHA256 9d7b9a62ef5b2d28a04183b1385863c1f61542c34ab3b8b2856672d14dbd9315; labels SHA256 a2e9c6cf601e2b7328772eaa93df68c14ee09611d0ea59a6b273d05ed03e9e1b. Raw per-query rankings: eval/runs/latest.json (generated, ignored by git).
+Model: sentence-transformers/all-MiniLM-L6-v2@c9745ed1d9f207416be6d2e6f8de32d1f16199bf. ES 9.4.3. Fixture SHA256 9d7b9a62ef5b2d28a04183b1385863c1f61542c34ab3b8b2856672d14dbd9315; labels SHA256 a2e9c6cf601e2b7328772eaa93df68c14ee09611d0ea59a6b273d05ed03e9e1b. Recorded per-query rankings: eval/fixture-run.json; latest local run is also in eval/runs/latest.json.

@@ -128,3 +128,7 @@ Evaluation and benchmarking use a recorded 10-second embedding timeout and rejec
 - Review relevance labels and build a relevance set for the larger corpus. Collection and live activation commands are in [LIVE.md](docs/LIVE.md); keep larger-corpus quality claims separate from fixture metrics.
 - Evaluate optional reranking and an alternate embedding model after label review. CUDA has not been validated; the Linux image uses CPU Torch.
 - Complete frontend API migration and dependency updates before remote browser deployment. Provision VM/DNS/TLS and confirm remote CI results; local checks do not substitute for those steps.
+
+## License
+
+[MIT](LICENSE) © 2026 Sasmith A Suvarna, except third-party files listed in the LICENSE.

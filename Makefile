@@ -12,6 +12,7 @@ help:
 	  "Search eval:   make eval | eval-check | eval-baseline" \
 	  "Load test:     make bench" \
 	  "Experiment:    make balanced-seed balanced-check" \
+	  "Live corpus:   make live-collect live-seed live-up" \
 	  "PDF guide:     make architecture-pdf" \
 	  "Operations:    make smoke | outage-check | prod-check" \
 	  "Full corpus:   make rebuild-data  (requires GITHUB_TOKEN)" \
@@ -80,3 +81,21 @@ balanced-check:
 .PHONY: architecture-pdf
 architecture-pdf:
 	$(UV) run --frozen --with reportlab==4.4.3 python docs/build_architecture.py
+
+.PHONY: live-collect live-seed live-up
+live-collect:
+	$(UV) run --frozen python -m scripts.fetch_repos --config scripts/collection.live.json --checkpoint data/live-checkpoint.json --output data/live-repos.json
+live-seed:
+	$(UV) run --frozen python -m scripts.generate_embeddings --input data/live-repos.json --output data/live-repos-with-embeddings.json
+	ES_INDEX=gitgrep-live ES_TIMEOUT_MS=30000 $(UV) run --frozen python -m scripts.indexing_repos --input data/live-repos-with-embeddings.json --index gitgrep-live-v1 --layout balanced
+live-up:
+	ES_INDEX=gitgrep-live SEARCH_STRATEGY=balanced $(COMPOSE) up -d --build --wait backend
+
+.PHONY: live-bench
+live-bench:
+	npm --prefix backend run build
+	EMBED_TIMEOUT_MS=$(EMBED_TIMEOUT_MS) npm --prefix backend run bench -- --live
+
+.PHONY: live-verify
+live-verify:
+	ES_INDEX=gitgrep-live $(UV) run --frozen python -m infra.checks.live

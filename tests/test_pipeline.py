@@ -92,3 +92,41 @@ def test_collector_rejects_private_repos_before_checkpoint(monkeypatch, tmp_path
     with pytest.raises(RuntimeError, match='non-public'):
         fetch.collect(config, checkpoint, output)
     assert not checkpoint.exists() and not output.exists()
+
+
+def test_readme_pool_is_bounded_ordered_and_closes_clients(monkeypatch):
+    import threading
+    import time
+    import scripts.fetch_repos as fetch
+    active, peak, closed = [0], [0], []
+    lock = threading.Lock()
+    first_pair = threading.Barrier(2)
+
+    class Resource:
+        def close(self):
+            closed.append(1)
+
+    class GitHub:
+        def __init__(self, *_):
+            self.client, self.cache = Resource(), Resource()
+
+        def get(self, path, raw):
+            assert raw
+            with lock:
+                active[0] += 1
+                peak[0] = max(peak[0], active[0])
+            if path.endswith(('/0/readme', '/1/readme')):
+                first_pair.wait(timeout=5)
+            time.sleep(.01)
+            with lock:
+                active[0] -= 1
+            return path.encode()
+
+    monkeypatch.setattr(fetch, 'GitHub', GitHub)
+    repos = [{'full_name': f'owner/{i}', 'private': False} for i in range(5)]
+    rows = list(fetch.fetch_readmes(repos, None, 'unused', workers=2))
+    assert [r for r, _ in rows] == repos
+    assert rows[-1][1] == b'/repos/owner/4/readme'
+    assert 1 < peak[0] <= 2 and len(closed) == 4
+    with pytest.raises(RuntimeError, match='non-public'):
+        list(fetch.fetch_readmes([{'private': True}], None, 'unused'))

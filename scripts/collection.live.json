@@ -1,0 +1,29 @@
+{
+  "languages": [
+    "Python",
+    "JavaScript",
+    "TypeScript",
+    "Rust",
+    "Go",
+    "Java",
+    "C++",
+    "Ruby"
+  ],
+  "star_buckets": [
+    [
+      10000,
+      1000000
+    ],
+    [
+      5000,
+      9999
+    ],
+    [
+      1000,
+      4999
+    ]
+  ],
+  "created_start": "2008-01-01",
+  "created_end": "2026-11-04",
+  "per_language": 500
+}

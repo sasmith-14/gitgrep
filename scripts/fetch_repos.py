@@ -1,4 +1,5 @@
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 from datetime import date, timedelta
 import hashlib
@@ -6,6 +7,7 @@ import json
 from pathlib import Path
 import sqlite3
 import time
+import threading
 
 import httpx
 from services.config import Settings
@@ -22,7 +24,8 @@ def atomic_json(path, value):
 class GitHub:
     def __init__(self, settings, cache_path, sleep=time.sleep):
         self.sleep = sleep
-        self.cache = sqlite3.connect(cache_path)
+        # Workers own connections; the coordinator closes them only after joining the pool.
+        self.cache = sqlite3.connect(cache_path, check_same_thread=False)
         self.cache.execute('CREATE TABLE IF NOT EXISTS responses (url TEXT PRIMARY KEY, etag TEXT, body BLOB)')
         headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
         if settings.github_token:
@@ -77,6 +80,32 @@ class GitHub:
         raise RuntimeError('GitHub retry budget exhausted; checkpoint retained')
 
 
+
+def fetch_readmes(repos, settings, cache_path, workers=8):
+    if any(repo.get('private') is not False for repo in repos):
+        raise RuntimeError('Refusing to fetch a non-public or unknown-visibility repository')
+    local, clients = threading.local(), []
+    lock, next_start = threading.Lock(), [time.monotonic()]
+
+    def fetch(repo):
+        with lock:
+            delay = max(0, next_start[0] - time.monotonic())
+            next_start[0] = max(time.monotonic(), next_start[0]) + .125
+        time.sleep(delay)
+        if not hasattr(local, 'github'):
+            local.github = GitHub(settings, cache_path)
+            clients.append(local.github)
+        return local.github.get('/repos/' + repo['full_name'] + '/readme', raw=True)
+
+    try:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            yield from zip(repos, pool.map(fetch, repos))
+    finally:
+        for client in clients:
+            client.client.close()
+            client.cache.close()
+
+
 def split_shard(shard):
     lang, low, high, start, end = shard
     start_date, end_date = date.fromisoformat(start), date.fromisoformat(end)
@@ -128,20 +157,19 @@ def collect(config_path, checkpoint='data/checkpoint.json', output='data/repos.j
                            {'q': query, 'per_page': 100, 'page': page, 'sort': 'stars'})
                 if response.get('incomplete_results'):
                     raise RuntimeError('incomplete page; checkpoint retained')
-                for repo in response['items']:
-                    if repo.get('private') is not False:
-                        raise RuntimeError('Refusing to checkpoint a non-public or unknown-visibility repository')
+                if any(repo.get('private') is not False for repo in response['items']):
+                    raise RuntimeError('Refusing to checkpoint a non-public or unknown-visibility repository')
+                pending = [repo for repo in response['items'] if str(repo['id']) not in state['repos']]
+                pending = pending[:max(0, config['per_language'] - count)]
+                for repo, readme in fetch_readmes(pending, Settings(), str(Path(checkpoint).with_suffix('.sqlite'))):
                     key = str(repo['id'])
-                    if key not in state['repos']:
-                        readme = github.get('/repos/' + repo['full_name'] + '/readme', raw=True)
-                        state['repos'][key] = {field: repo.get(field) for field in (
-                            'id', 'name', 'full_name', 'html_url', 'description', 'language', 'private',
-                            'stargazers_count', 'pushed_at', 'topics')}
-                        state['repos'][key]['readme'] = readme.decode('utf-8', errors='replace')
+                    state['repos'][key] = {field: repo.get(field) for field in (
+                        'id', 'name', 'full_name', 'html_url', 'description', 'language', 'private',
+                        'stargazers_count', 'pushed_at', 'topics')}
+                    state['repos'][key]['readme'] = readme.decode('utf-8', errors='replace')
+                    if len(state['repos']) % 20 == 0:
                         atomic_json(checkpoint, state)
-                    count = sum((r.get('language') or '').casefold() == language.casefold() for r in state['repos'].values())
-                    if count >= config['per_language']:
-                        break
+                count = sum((r.get('language') or '').casefold() == language.casefold() for r in state['repos'].values())
                 done.add(page_key)
                 state['done'] = sorted(done)
                 atomic_json(checkpoint, state)

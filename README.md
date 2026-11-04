@@ -86,7 +86,7 @@ The indexer bulk-writes stable repo IDs to versioned indices, skips matching con
 
 `make test` runs Python unit tests and Node unit/property/API tests. The tokenizer gets 1,000 generated Unicode cases and 300 operator-position/override cases. `make integration` uses actual Docker ES and MiniLM, comparing returned IDs/counts to exhaustive fixture predicates across all three modes; it also checks identifier analysis and similar-repo exclusion. `make verify` runs lint, tests, integration, real endpoint smoke checks and the eval gate. [Execution evidence](docs/evidence/verification.txt) records the final commands and outcomes.
 
-GitHub Actions defines those checks, frontend build, dependency audits and image builds. A remote Actions run has not occurred because this work was not pushed. No live deployment URL is claimed. Production ES auth is tested locally with `make prod-check`; read [DEPLOY.md](docs/DEPLOY.md) before using the standalone production Compose file.
+GitHub Actions defines those checks, frontend build, dependency audits and image builds. The completed work is published to `sasmith-14/gitgrep`; remote Actions status was not confirmed because the GitHub API returned a rate-limit error. No live deployment URL is claimed. Production ES auth is tested locally with `make prod-check`; read [DEPLOY.md](docs/DEPLOY.md) before using the standalone production Compose file.
 
 ## Not done / needs owner attention
 
@@ -94,4 +94,4 @@ GitHub Actions defines those checks, frontend build, dependency audits and image
 - Optional reranker, alternate embedding model and CUDA hardware validation were not run. Grafana JSON was skipped.
 - Provision a VM/DNS/TLS and run the deployment steps. CI is configured but not yet run remotely.
 - Frontend migration and its dependency audit findings remain with the frontend session; its source/lockfile were not changed here.
-- Run `make hygiene` and review the rewritten history before any force-push. The actual origin still points to `sasmith-14/search_engine_project`, while the requested destination was `sasmith-14/gitgrep`. No remote URL was changed and nothing was pushed. [Exact cleanup/lease-safe push commands](docs/evidence/phase-1.md) include the original remote tip.
+- History was rewritten and published to `sasmith-14/gitgrep` with an explicit remote-tip lease after owner authorization. Origin now points to that repository. Existing clone owners should re-clone rather than merge the old history. [Cleanup commands and original remote tip](docs/evidence/phase-1.md) preserve the pre-publication record.

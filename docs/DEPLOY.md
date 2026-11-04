@@ -78,4 +78,4 @@ Build the next corpus into gitgrep-v2. The indexer writes batches, records per-i
 
 Back up ES with snapshots to storage outside the VM, not by copying a live data directory. Test restore into a separate index before relying on a backup. Monitor disk space, readiness failures, degraded counter, stage p95 and cache-hit ratio. A single VM has no host failover and default replica count is zero. Per-process rate/cache state needs a shared store or gateway limiter before adding API replicas. Optional Grafana JSON was omitted.
 
-No DNS record, TLS certificate, cloud resource, public endpoint or remote push was created in this session. Local production authentication checks, image/runtime checks, and any unresolved deploy checks are recorded in docs/evidence/phase-6.md.
+No DNS record, TLS certificate, cloud resource or public endpoint was created. Source has since been pushed to `sasmith-14/gitgrep` with owner authorization; that is not a live deployment. Local production authentication checks, image/runtime checks, and any unresolved deploy checks are recorded in docs/evidence/phase-6.md.

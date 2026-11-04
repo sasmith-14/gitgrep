@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fc from 'fast-check';
 import { parseQuery, tokenize, validateInput } from '../src/query';
 import { fuse } from '../src/fusion';
-import { keywordRequest, semanticRequest } from '../src/search';
+import { keywordRequest, semanticRequest, repositoryRequest, passageRequest } from '../src/search';
 import { hit } from './helpers';
 test('tokenizer handles operators, quotes, exclusions, empty values and unknown operators', () => {
   const q = parseQuery('lang:rust tool stars:>500 "exact phrase" -excluded pushed:>2025-01-01 topic:cli lang:go unknown:yes lang:');
@@ -48,4 +48,14 @@ test('every constraint is shared by lexical and knn prefilters', () => {
   const query = parseQuery('lang:rust stars:>500 pushed:>2025-01-01 topic:cli "exact phrase" -excluded');
   assert.deepEqual(keywordRequest(query,100).query.bool.filter[0], semanticRequest(query,[1,0],100).knn.filter);
   assert.equal(semanticRequest(query,[1,0],100).knn.num_candidates,1010);
+});
+test('balanced retrieval prefilters both stages and confines exact passage scoring to shortlisted IDs', () => {
+  const query = parseQuery('lang:rust stars:>500 topic:cli "install" -deprecated');
+  const root = repositoryRequest(query, [1, 0], 200);
+  const passages = passageRequest(query, [1, 0], ['42', '99'], 100);
+  assert.equal(root.knn.field, 'embedding');
+  assert.deepEqual(root.knn.filter, passages.query.bool.filter[0]);
+  assert.deepEqual(passages.query.bool.filter[1], { ids: { values: ['42', '99'] } });
+  assert.equal(passages.size, 101);
+  assert.ok(passages.query.bool.must[0].nested.query.script_score.script.source.includes('/ 2.0'));
 });

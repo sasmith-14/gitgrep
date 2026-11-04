@@ -11,6 +11,8 @@ help:
 	  "Checks:        make verify | audit | hygiene" \
 	  "Search eval:   make eval | eval-check | eval-baseline" \
 	  "Load test:     make bench" \
+	  "Experiment:    make balanced-seed balanced-check" \
+	  "PDF guide:     make architecture-pdf" \
 	  "Operations:    make smoke | outage-check | prod-check" \
 	  "Full corpus:   make rebuild-data  (requires GITHUB_TOKEN)" \
 	  "Stop services: make down  (keeps data volumes)"
@@ -67,3 +69,14 @@ hygiene:
 
 outage-check:
 	$(UV) run --frozen python -m infra.checks.check_degradation
+
+.PHONY: balanced-seed balanced-check
+balanced-seed:
+	ES_INDEX=gitgrep-balanced $(UV) run --frozen python -m scripts.indexing_repos --index gitgrep-balanced-v2 --layout balanced
+balanced-check:
+	ES_INDEX=gitgrep-balanced SEARCH_STRATEGY=balanced npm --prefix backend run integration
+	cd backend && npx tsx ../eval/balanced.ts
+
+.PHONY: architecture-pdf
+architecture-pdf:
+	$(UV) run --frozen --with reportlab==4.4.3 python docs/build_architecture.py

@@ -45,6 +45,7 @@ jobs:
           cat embedding-ci.log backend-ci.log
           exit 1
       - run: make integration smoke eval-check
+      - run: make balanced-seed balanced-check
       - run: make audit prod-check
       - uses: actions/upload-artifact@v4
         if: always()
@@ -52,6 +53,7 @@ jobs:
           name: execution-evidence
           path: |
             eval/RESULTS.md
+            eval/balanced-results.json
             eval/runs/latest.json
             docs/evidence/api
             *-ci.log

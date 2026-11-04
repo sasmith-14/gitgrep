@@ -44,6 +44,22 @@ export function semanticRequest(query: Query, vector: number[], depth: number, s
     }, sort: ['_score', { id: 'asc' }] };
 }
 
+export function repositoryRequest(query: Query, vector: number[], candidates: number): Json {
+  return { size: candidates, _source: false,
+    knn: { field: 'embedding', query_vector: vector, k: candidates,
+      num_candidates: Math.min(10000, candidates * 10), filter: filters(query) } };
+}
+
+export function passageRequest(query: Query, vector: number[], ids: string[], depth: number): Json {
+  return { size: depth + 1, track_total_hits: depth + 1, _source: source,
+    query: { bool: { filter: [filters(query), { ids: { values: ids } }],
+      must: [{ nested: { path: 'chunks', score_mode: 'max',
+        query: { script_score: { query: { match_all: {} }, script: {
+          source: "(cosineSimilarity(params.vector, 'chunks.embedding') + 1.0) / 2.0", params: { vector },
+        } } }, inner_hits: { name: 'semantic', size: 1, _source: chunkSource },
+      } }] } }, sort: ['_score', { id: 'asc' }] };
+}
+
 export class Search {
   readonly upstream: Upstreams;
   readonly embeddings: Embeddings;
@@ -76,6 +92,13 @@ export class Search {
         finally { timings.embedMs += performance.now() - start; }
       }
       if (!vector) return null;
+      if (!similar && this.config.SEARCH_STRATEGY === 'balanced') {
+        const shortlist = await this.retrieve(repositoryRequest(query, vector,
+          Math.max(this.config.REPO_CANDIDATES, this.config.MAX_DEPTH + 1)), 'knnMs', timings);
+        const ids = shortlist.hits.hits.map((hit: Hit) => hit._id);
+        if (!ids.length) return { hits: { hits: [], total: { value: 0 } } };
+        return this.retrieve(passageRequest(query, vector, ids, this.config.MAX_DEPTH), 'knnMs', timings);
+      }
       return this.retrieve(semanticRequest(query, vector, this.config.MAX_DEPTH, similar?.id), 'knnMs', timings);
     })();
     let [bm25, knn] = await Promise.all([keyword, semantic]);

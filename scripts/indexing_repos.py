@@ -7,7 +7,7 @@ from services.config import Settings
 from scripts.mapping import mapping
 
 
-def index(source, target=None):
+def index(source, target=None, layout="chunks"):
     settings = Settings()
     target = target or settings.es_index + "-v1"
     if target == settings.es_index or not target.startswith(settings.es_index + "-v"):
@@ -17,9 +17,20 @@ def index(source, target=None):
                       timeout=settings.es_timeout_ms / 1000) as client:
         exists = client.head('/' + target)
         if exists.status_code == 404:
-            client.put('/' + target, json=mapping(settings.embed_dimension)).raise_for_status()
+            client.put('/' + target, json=mapping(settings.embed_dimension, layout)).raise_for_status()
         else:
             exists.raise_for_status()
+            response = client.get('/' + target + '/_mapping')
+            response.raise_for_status()
+            actual = response.json()[target]['mappings'].get('_meta', {}).get('layout', 'chunks')
+            props = response.json()[target]['mappings']['properties']
+            expected = mapping(settings.embed_dimension, layout)['mappings']['properties']
+            root_type = props['embedding'].get('index_options', {}).get('type')
+            chunk_type = props['chunks']['properties']['embedding'].get('index_options', {}).get('type')
+            if (actual != layout or root_type != expected['embedding']['index_options']['type']
+                    or chunk_type != expected['chunks']['properties']['embedding']['index_options']['type']
+                    or props['embedding']['dims'] != settings.embed_dimension):
+                raise ValueError('Index layout differs; choose a fresh versioned index')
         documents = json.loads(Path(source).read_text())
         if not documents or len({d['id'] for d in documents}) != len(documents):
             raise ValueError('dataset must be nonempty with unique IDs')
@@ -59,5 +70,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', default='data/repos_with_embeddings.json')
     parser.add_argument('--index')
+    parser.add_argument('--layout', choices=['chunks', 'balanced'], default='chunks')
     args = parser.parse_args()
-    index(args.input, args.index)
+    index(args.input, args.index, args.layout)

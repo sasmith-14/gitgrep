@@ -8,6 +8,8 @@ const schema = z.object({
   TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(1).default(0),
   CORS_ORIGIN: httpUrl.default('http://localhost:5173'),
   MAX_DEPTH: positive(100).pipe(z.number().max(1000)), RRF_K: positive(60),
+  SEARCH_STRATEGY: z.enum(['chunks', 'balanced']).default('chunks'),
+  REPO_CANDIDATES: positive(200).pipe(z.number().max(2000)),
   EMBED_DIMENSION: positive(384), EMBED_TIMEOUT_MS: positive(800), ES_TIMEOUT_MS: positive(2000),
   EMBED_CACHE_SIZE: positive(1000), FACET_TTL_MS: positive(60000),
   RATE_LIMIT: positive(120), RATE_WINDOW_MS: positive(60000),

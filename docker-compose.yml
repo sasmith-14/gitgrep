@@ -31,6 +31,9 @@ services:
     environment:
       ES_URL: http://elasticsearch:9200
       EMBED_URL: http://embedding:6001
+      ES_INDEX: ${ES_INDEX:-gitgrep}
+      SEARCH_STRATEGY: ${SEARCH_STRATEGY:-chunks}
+      REPO_CANDIDATES: ${REPO_CANDIDATES:-200}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
     ports: ["127.0.0.1:5050:5050"]
     mem_limit: 256m

@@ -50,3 +50,16 @@ test('real ES: quoted phrases and exclusions prefilter both lists',async()=>{
     assert.equal(included.total+excluded.total,50);
   }
 });
+
+test('balanced shortlist bounds passage retrieval and returns usable matches',
+  { skip: process.env.SEARCH_STRATEGY !== 'balanced' }, async () => {
+    const search = new Search(readConfig({ ...process.env, MAX_DEPTH: '10', REPO_CANDIDATES: '10', EMBED_TIMEOUT_MS: '10000' }));
+    const result = await search.search(validateInput({ q: 'lang:Python chatbot framework', mode: 'semantic' }, 10), timings());
+    assert.equal(result.degraded, false);
+    assert.ok(result.results.length > 0 && result.results.length <= 10);
+    for (const repo of result.results) {
+      assert.equal(repo.language.toLowerCase(), 'python');
+      assert.ok(repo.match && repo.match.passage.length <= 400);
+      assert.ok(repo.explain.cosine! >= -1 && repo.explain.cosine! <= 1);
+    }
+  });

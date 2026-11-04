@@ -16,6 +16,7 @@ async function main() {
   const failureNotes = JSON.parse(read('eval/failure-notes.json'));
   const fixture = JSON.parse(read('tests/fixtures/repos.json'));
   const config = readConfig();
+  if (config.SEARCH_STRATEGY !== 'chunks') throw new Error('Use make balanced-check for the separate balanced experiment; this baseline belongs to chunk search');
   const search = new Search(config);
   const health = await search.upstream.request('/health',undefined,true);
   const es = await search.upstream.request('/');

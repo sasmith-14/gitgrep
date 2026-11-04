@@ -40,6 +40,11 @@ def test_fixture_and_mapping():
     props = mapping()['mappings']['properties']
     assert props['chunks']['type'] == 'nested'
     assert props['embedding']['similarity'] == 'cosine'
+    balanced = mapping(layout='balanced')['mappings']['properties']
+    assert balanced['embedding']['index_options']['type'] == 'int8_hnsw'
+    assert balanced['chunks']['properties']['embedding']['index_options']['type'] == 'flat'
+    with pytest.raises(ValueError):
+        mapping(layout='unknown')
 
 
 def test_github_etag_rate_limit_and_resume_cache(tmp_path):

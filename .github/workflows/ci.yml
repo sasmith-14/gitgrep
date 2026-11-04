@@ -1,0 +1,72 @@
+name: checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    services:
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:9.4.3@sha256:851ff5f9615ab7d2f00931114f6db32850f0208ec9fe7e841f135ac78f5f13d5
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: "false"
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports: [9200:9200]
+        options: >-
+          --memory=2g
+          --health-cmd="curl -fsS http://localhost:9200/_cluster/health"
+          --health-interval=10s --health-timeout=5s --health-retries=30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm, cache-dependency-path: backend/package-lock.json}
+      - run: pip install uv==0.12.10
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: minilm-c9745ed1d9f207416be6d2e6f8de32d1f16199bf
+      - run: make install
+      - run: make lint test
+      - run: npm --prefix frontend run build
+      - run: make seed
+      - name: Start actual services and wait for readiness
+        run: |
+          uv run --frozen uvicorn services.embedding_service:app --host 127.0.0.1 --port 6001 > embedding-ci.log 2>&1 &
+          npm --prefix backend run build
+          node backend/dist/server.js > backend-ci.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:5050/readyz; then exit 0; fi
+            sleep 1
+          done
+          cat embedding-ci.log backend-ci.log
+          exit 1
+      - run: make integration smoke eval-check
+      - run: make audit prod-check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: execution-evidence
+          path: |
+            eval/RESULTS.md
+            eval/runs/latest.json
+            docs/evidence/api
+            *-ci.log
+  images:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      matrix: {service: [backend, embedding, frontend]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/${{ matrix.service }}.Dockerfile
+          push: false
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}

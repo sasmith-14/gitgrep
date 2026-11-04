@@ -1,0 +1,384 @@
+Repository organization verification UTC: 2026-11-04T04:41:31.886212+00:00
+
+Command: make lint test integration
+uv run --frozen ruff check services scripts infra/checks tests
+All checks passed!
+npm --prefix backend run lint
+
+> gitgrep-api@0.2.0 lint
+> tsc --noEmit
+
+uv run --frozen pytest -q
+......                                                                   [100%]
+6 passed in 0.27s
+npm --prefix backend test
+
+> gitgrep-api@0.2.0 test
+> tsx --test tests/*.test.ts
+
+(node:19894) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ search contract, cached embedding, headers and legacy route (22.61125ms)
+✔ semantic failure falls back to keyword and hides internal messages (4.883792ms)
+✔ validation, compare, similar, cached facets, readiness and metrics (8.500833ms)
+✔ rate limit has contract error and Retry-After (1.283417ms)
+✔ embedding cache bounds, circuit opening and one half-open probe (16.475667ms)
+✔ outbound timeout is sanitized (0.163ms)
+✔ startup config rejects non-HTTP URLs and invalid ports (0.43175ms)
+✔ lookahead detects depth cap and pages remain disjoint (1.713458ms)
+✔ readiness failure reports each dependency and canonical error (0.882584ms)
+(node:19895) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ tokenizer handles operators, quotes, exclusions, empty values and unknown operators (1.378458ms)
+✔ explicit parameters override operators, duplicates are deterministic and limits reject bad input (1.282917ms)
+✔ property: arbitrary Unicode/quotes terminate, retain raw and produce bounded text (7.948167ms)
+✔ RRF matches hand calculation, removes duplicates, and does not depend on raw score scales (0.399875ms)
+✔ every constraint is shared by lexical and knn prefilters (0.207ms)
+(node:19896) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ eval metrics match a hand-ranked relevance list (0.748334ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 298.255084
+npm --prefix backend run integration
+
+> gitgrep-api@0.2.0 integration
+> tsx --test tests/*.integration.ts
+
+(node:19917) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ real ES: prefiltered semantic/keyword counts equal exhaustive fixture check (198.497083ms)
+✔ real ES: quoted phrases and exclusions prefilter both lists (67.184916ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 362.092458
+
+Exit status: 0
+
+Command: uv run --frozen python -m infra.checks.smoke --output docs/evidence/local/organization-api
+200 /api/search?q=fastapi&size=1
+200 /api/compare?q=fastapi
+200 /api/similar/160919119?size=3
+200 /api/facets
+200 /healthz
+200 /readyz
+200 /metrics
+400 /api/search?q=fastapi&size=51
+404 /api/similar/99999999999999999
+200 /api/search?q=lang:Rust&size=50
+
+Exit status: 0
+
+Command: make prod-check outage-check
+python3 -m infra.checks.check_prod
+production ES: anonymous=401, read key search=200, read key write=403
+uv run --frozen python -m infra.checks.check_degradation
+ Container gitgrep-embedding-1 Stopping 
+ Container gitgrep-embedding-1 Stopped 
+ Container gitgrep-embedding-1 Starting 
+ Container gitgrep-embedding-1 Started 
+ Container gitgrep-embedding-1 Waiting 
+ Container gitgrep-embedding-1 Healthy 
+embedding stopped: search=200, keyword result present, degraded=true, readiness=503
+embedding restored: search=200, degraded=false, readiness=200
+
+Exit status: 0
+
+Command: docker compose up -d --build --wait
+ Image gitgrep-embedding Building 
+ Image gitgrep-backend Building 
+ Image gitgrep-frontend Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.48kB done
+#1 DONE 0.0s
+
+#2 [frontend internal] load build definition from frontend.Dockerfile
+#2 transferring dockerfile: 516B done
+#2 DONE 0.0s
+
+#3 [backend internal] load build definition from backend.Dockerfile
+#3 transferring dockerfile: 715B done
+#3 DONE 0.0s
+
+#4 [embedding internal] load build definition from embedding.Dockerfile
+#4 transferring dockerfile: 1.33kB done
+#4 DONE 0.0s
+
+#5 [embedding internal] load metadata for docker.io/library/python:3.11-slim-bookworm@sha256:94a8fee35252d06ab75856f15f12c7bae67b10e8a6da93c7fded82b2610926cd
+#5 DONE 0.1s
+
+#6 [backend internal] load metadata for docker.io/library/node:22-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da
+#6 DONE 0.1s
+
+#7 [frontend internal] load metadata for docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#7 DONE 0.1s
+
+#8 [frontend internal] load .dockerignore
+#8 transferring context: 156B done
+#8 DONE 0.0s
+
+#9 [embedding internal] load build context
+#9 transferring context: 13.63kB done
+#9 DONE 0.0s
+
+#10 [embedding build 1/7] FROM docker.io/library/python:3.11-slim-bookworm@sha256:94a8fee35252d06ab75856f15f12c7bae67b10e8a6da93c7fded82b2610926cd
+#10 resolve docker.io/library/python:3.11-slim-bookworm@sha256:94a8fee35252d06ab75856f15f12c7bae67b10e8a6da93c7fded82b2610926cd 0.0s done
+#10 DONE 0.0s
+
+#11 [backend build 1/7] FROM docker.io/library/node:22-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da
+#11 resolve docker.io/library/node:22-bookworm-slim@sha256:4b150b48b4116e2a22f2c39cc27025fbf4f153e2078fd3b14d159fdb5c7279da 0.0s done
+#11 DONE 0.0s
+
+#12 [frontend stage-1 1/3] FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03
+#12 resolve docker.io/nginxinc/nginx-unprivileged:stable-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 0.0s done
+#12 DONE 0.0s
+
+#13 [embedding build 2/7] WORKDIR /app
+#13 CACHED
+
+#14 [embedding build 3/7] RUN pip install --no-cache-dir uv==0.12.10
+#14 CACHED
+
+#15 [embedding build 4/7] COPY pyproject.toml uv.lock ./
+#15 CACHED
+
+#16 [embedding build 5/7] RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-dev --no-install-project
+#16 CACHED
+
+#17 [backend internal] load build context
+#17 transferring context: 835B done
+#17 DONE 0.0s
+
+#18 [backend build 3/7] COPY backend/package.json backend/package-lock.json ./
+#18 CACHED
+
+#19 [backend build 2/7] WORKDIR /app
+#19 CACHED
+
+#20 [backend build 4/7] RUN npm ci
+#20 CACHED
+
+#21 [embedding build 6/7] COPY services ./services
+#21 DONE 0.0s
+
+#22 [backend build 5/7] COPY backend/tsconfig.json backend/server.ts ./
+#22 DONE 0.0s
+
+#23 [backend build 6/7] COPY backend/src ./src
+#23 DONE 0.0s
+
+#24 [frontend internal] load build context
+#24 transferring context: 1.38kB 0.4s done
+#24 DONE 0.4s
+
+#25 [frontend build 5/6] COPY frontend/ ./
+#25 CACHED
+
+#26 [frontend build 3/6] COPY frontend/package.json frontend/package-lock.json ./
+#26 CACHED
+
+#19 [frontend build 2/7] WORKDIR /app
+#19 CACHED
+
+#27 [frontend build 4/6] RUN npm ci
+#27 CACHED
+
+#28 [frontend build 6/6] RUN npm run build
+#28 CACHED
+
+#29 [frontend stage-1 2/3] COPY infra/nginx.conf /etc/nginx/conf.d/default.conf
+#29 CACHED
+
+#30 [frontend stage-1 3/3] COPY --from=build /app/dist /usr/share/nginx/html
+#30 CACHED
+
+#31 [frontend] exporting to image
+#31 exporting layers done
+#31 exporting manifest sha256:0f82b6ea8e29b32bdd29250d33a9d07a5976881281944d382296f43c10e23a7f done
+#31 exporting config sha256:1e3a9291cbb5ba7431cf9c7c8fc67d40401793043c4f77f558f5d22d8440953f done
+#31 exporting attestation manifest sha256:9925dc7381a851408be16f8ae1afcc7ebc5bca560fb7f420429a28bb0fcbe686 0.0s done
+#31 exporting manifest list sha256:ad02e959a85d36d2a8fa2a01d6266a9c31055fab3bdb41719a2456cbda0ec64e
+#31 exporting manifest list sha256:ad02e959a85d36d2a8fa2a01d6266a9c31055fab3bdb41719a2456cbda0ec64e done
+#31 naming to docker.io/library/gitgrep-frontend:latest done
+#31 unpacking to docker.io/library/gitgrep-frontend:latest done
+#31 DONE 0.0s
+
+#32 [frontend] resolving provenance for metadata file
+#32 DONE 0.0s
+
+#33 [backend build 7/7] RUN npm run build && npm prune --omit=dev
+#33 0.238 
+#33 0.238 > gitgrep-api@0.2.0 build
+#33 0.238 > tsc
+#33 0.238 
+#33 2.039 
+#33 2.039 up to date, audited 89 packages in 990ms
+#33 2.039 
+#33 2.039 34 packages are looking for funding
+#33 2.039   run `npm fund` for details
+#33 2.040 
+#33 2.040 found 0 vulnerabilities
+#33 DONE 2.1s
+
+#34 [embedding build 7/7] RUN .venv/bin/python -c "from services.config import Settings; from services.model import load_model; load_model(Settings()).encode(['image warmup'], normalize_embeddings=True)"
+#34 ...
+
+#35 [backend stage-1 4/5] COPY --from=build --chown=node:node /app/node_modules ./node_modules
+#35 CACHED
+
+#36 [backend stage-1 3/5] COPY --from=build --chown=node:node /app/package.json ./
+#36 CACHED
+
+#37 [backend stage-1 5/5] COPY --from=build --chown=node:node /app/dist ./dist
+#37 CACHED
+
+#38 [backend] exporting to image
+#38 exporting layers done
+#38 exporting manifest sha256:bcb2e73f3ac14227562de358d840952df3c1d66ab046142e370ed802fae5e0eb done
+#38 exporting config sha256:cf6dbb814f49ec1a4845ccec15db5408661d7e68e19ca3f7f8761946d3ce243e done
+#38 exporting attestation manifest sha256:5e2cf87927a9771814ceb5defe84a7ec3c9f47f8fc1a237055e54ec8e0a25b39 done
+#38 exporting manifest list sha256:4601da25ee9c982208934bfac8f87711a2315e061e2b6079f28e932ff5b0e0ee done
+#38 naming to docker.io/library/gitgrep-backend:latest done
+#38 unpacking to docker.io/library/gitgrep-backend:latest done
+#38 DONE 0.0s
+
+#39 [backend] resolving provenance for metadata file
+#39 DONE 0.0s
+
+#34 [embedding build 7/7] RUN .venv/bin/python -c "from services.config import Settings; from services.model import load_model; load_model(Settings()).encode(['image warmup'], normalize_embeddings=True)"
+#34 7.325 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+#34 21.65 
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8742.73it/s]
+#34 DONE 26.1s
+
+#40 [embedding stage-1 3/8] RUN useradd --uid 10001 --create-home app && mkdir -p /app/data /app/.cache && chown -R app:app /app
+#40 CACHED
+
+#41 [embedding stage-1 4/8] COPY --from=build /app/.venv /app/.venv
+#41 CACHED
+
+#42 [embedding stage-1 5/8] COPY --from=build /opt/hf /opt/hf
+#42 DONE 0.1s
+
+#43 [embedding stage-1 6/8] COPY --chown=app:app services ./services
+#43 DONE 0.0s
+
+#44 [embedding stage-1 7/8] COPY --chown=app:app scripts ./scripts
+#44 DONE 0.0s
+
+#45 [embedding stage-1 8/8] COPY --chown=app:app tests/fixtures ./tests/fixtures
+#45 DONE 0.0s
+
+#46 [embedding] exporting to image
+#46 exporting layers
+#46 exporting layers 1.3s done
+#46 exporting manifest sha256:b3635372dc931152f7b52f7d920eb34386a7efb75c0e993a7029f59f2ff8e62e done
+#46 exporting config sha256:7eba2e0a8e6df77aee68046e84ed0ad507d989f462cd5c1ed8aff86742821c05 done
+#46 exporting attestation manifest sha256:46883a4bac28106d6d30ec2f18fd73add6ca05ea3d0382a0493baf108416e03b done
+#46 exporting manifest list sha256:6d62a5a2e3950b37125a6ff1fd06ccb2c75e7931e4fe4b7773eb038949c0c631 done
+#46 naming to docker.io/library/gitgrep-embedding:latest done
+#46 unpacking to docker.io/library/gitgrep-embedding:latest
+#46 unpacking to docker.io/library/gitgrep-embedding:latest 0.3s done
+#46 DONE 1.7s
+
+#47 [embedding] resolving provenance for metadata file
+#47 DONE 0.0s
+ Image gitgrep-frontend Built 
+ Image gitgrep-embedding Built 
+ Image gitgrep-backend Built 
+ Container gitgrep-elasticsearch-1 Running 
+ Container gitgrep-backend-1 Running 
+ Container gitgrep-frontend-1 Running 
+ Container gitgrep-embedding-1 Recreate 
+ Container gitgrep-embedding-1 Recreated 
+ Container gitgrep-embedding-1 Starting 
+ Container gitgrep-embedding-1 Started 
+ Container gitgrep-embedding-1 Waiting 
+ Container gitgrep-elasticsearch-1 Waiting 
+ Container gitgrep-elasticsearch-1 Healthy 
+ Container gitgrep-embedding-1 Healthy 
+ Container gitgrep-backend-1 Waiting 
+ Container gitgrep-backend-1 Healthy 
+ Container gitgrep-elasticsearch-1 Waiting 
+ Container gitgrep-embedding-1 Waiting 
+ Container gitgrep-backend-1 Waiting 
+ Container gitgrep-frontend-1 Waiting 
+ Container gitgrep-frontend-1 Healthy 
+ Container gitgrep-embedding-1 Healthy 
+ Container gitgrep-elasticsearch-1 Healthy 
+ Container gitgrep-backend-1 Healthy 
+
+Exit status: 0
+
+Command: make seed
+uv run --frozen python -m scripts.generate_embeddings --input tests/fixtures/repos.json
+W1104 10:12:46.888000 20434 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8658.28it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+embed 1 public-apis/public-apis chunks=8 new_vectors=0
+embed 2 EbookFoundation/free-programming-books chunks=9 new_vectors=0
+embed 3 donnemartin/system-design-primer chunks=13 new_vectors=0
+embed 4 vinta/awesome-python chunks=12 new_vectors=0
+embed 5 practical-tutorials/project-based-learning chunks=9 new_vectors=0
+embed 6 TheAlgorithms/Python chunks=4 new_vectors=0
+embed 7 NousResearch/hermes-agent chunks=13 new_vectors=0
+embed 8 Significant-Gravitas/AutoGPT chunks=22 new_vectors=0
+embed 9 yt-dlp/yt-dlp chunks=9 new_vectors=0
+embed 10 microsoft/markitdown chunks=21 new_vectors=0
+embed 11 521xueweihan/HelloGitHub chunks=4 new_vectors=0
+embed 12 AUTOMATIC1111/stable-diffusion-webui chunks=19 new_vectors=0
+embed 13 huggingface/transformers chunks=10 new_vectors=0
+embed 14 anthropics/skills chunks=10 new_vectors=0
+embed 15 langflow-ai/langflow chunks=12 new_vectors=0
+embed 16 open-webui/open-webui chunks=13 new_vectors=0
+embed 17 langchain-ai/langchain chunks=6 new_vectors=0
+embed 18 ytdl-org/youtube-dl chunks=13 new_vectors=0
+embed 19 anthropics/claude-code chunks=8 new_vectors=0
+embed 20 github/spec-kit chunks=20 new_vectors=0
+embed 21 Comfy-Org/ComfyUI chunks=12 new_vectors=0
+embed 22 Shubhamsaboo/awesome-llm-apps chunks=11 new_vectors=0
+embed 23 nextlevelbuilder/ui-ux-pro-max-skill chunks=10 new_vectors=0
+embed 24 openai/whisper chunks=13 new_vectors=0
+embed 25 browser-use/browser-use chunks=13 new_vectors=0
+embed 26 deepseek-ai/DeepSeek-V3 chunks=21 new_vectors=0
+embed 27 pytorch/pytorch chunks=15 new_vectors=0
+embed 28 fastapi/fastapi chunks=13 new_vectors=0
+embed 29 nvbn/thefuck chunks=18 new_vectors=0
+embed 30 harry0703/MoneyPrinterTurbo chunks=6 new_vectors=0
+embed 31 hacksider/Deep-Live-Cam chunks=21 new_vectors=0
+embed 32 TauricResearch/TradingAgents chunks=17 new_vectors=0
+embed 33 karpathy/autoresearch chunks=14 new_vectors=0
+embed 34 home-assistant/core chunks=3 new_vectors=0
+embed 35 3b1b/manim chunks=11 new_vectors=0
+embed 36 django/django chunks=4 new_vectors=0
+embed 37 pallets/flask chunks=4 new_vectors=0
+embed 38 psf/requests chunks=5 new_vectors=0
+embed 39 scrapy/scrapy chunks=5 new_vectors=0
+embed 40 pandas-dev/pandas chunks=13 new_vectors=0
+embed 41 numpy/numpy chunks=5 new_vectors=0
+embed 42 ansible/ansible chunks=10 new_vectors=0
+embed 43 scikit-learn/scikit-learn chunks=16 new_vectors=0
+embed 44 python/cpython chunks=17 new_vectors=0
+embed 45 Textualize/rich chunks=15 new_vectors=0
+embed 46 Textualize/textual chunks=9 new_vectors=0
+embed 47 sherlock-project/sherlock chunks=7 new_vectors=0
+embed 48 vllm-project/vllm chunks=10 new_vectors=0
+embed 49 Graphify-Labs/graphify chunks=13 new_vectors=0
+embed 50 PaddlePaddle/PaddleOCR chunks=9 new_vectors=0
+uv run --frozen python -m scripts.indexing_repos
+{"index": "gitgrep-v1", "documents": 50, "changed": 0, "failed": 0}
+
+Exit status: 0

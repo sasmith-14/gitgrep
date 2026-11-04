@@ -1,45 +1,67 @@
 # gitgrep
 
-grep for repositories, by meaning. An Express API searches GitHub repository metadata and README passages with BM25 and MiniLM vectors, then merges the two ranked lists with Reciprocal Rank Fusion in Node.
+**Search GitHub repositories by name, intent and README passage.**
 
-I replaced the original score addition because BM25 and cosine have different scales. RRF avoids choosing a score weight, but it can bury a strong result that appears in only one list. The evaluation includes five examples where that happens.
+Gitgrep combines BM25 keyword retrieval with MiniLM semantic search, then merges the two ranked lists using Reciprocal Rank Fusion in Node. Results include the matching passage, relative highlight offsets and an explanation of each retriever's rank.
 
-The checked-in corpus is **50 real Python repositories**, extracted from the previous dataset. The collector is configured for 500 repos in each of eight languages (4,000 target); that full collection has **not** been run. I do not claim these fixture results generalize to that corpus.
+[Quickstart](#quickstart) · [API](docs/API.md) · [Design](docs/DESIGN.md) · [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
-## Run it
+The reproducible demo contains **50 real Python repositories**. The collector targets 4,000 repositories across eight languages; that larger collection has not been run. All quality numbers below use provisional assistant-authored labels and require owner review.
 
-Prerequisites: Git, Node 22+, uv, Docker Engine/Desktop with Compose v2, and enough disk/network access for the model and images. Docker needs about 6 GiB available for development. First build downloads the pinned model into the embedding image; runtime is offline.
+## Quickstart
+
+Prerequisites: Git, Node 22+, uv, and Docker with Compose v2. Allow about 6 GiB of Docker memory and network/disk capacity for the initial image and model downloads. The embedding image contains the pinned model and runs offline after building.
 
 ```sh
+git clone https://github.com/sasmith-14/gitgrep.git
+cd gitgrep
 make install
 make up
 make seed
 make verify
 ```
 
-Open http://localhost:5173. API: http://localhost:5050/api/search?q=fastapi. If another frontend server owns 5173, run `FRONTEND_PORT=5174 make up`; the existing frontend dev server can continue using the API. CORS_ORIGIN must match the browser origin. Frontend source and its dependency upgrades belong to a separate session; the API keeps `/search` compatible while that UI migrates to `/api/search`.
+Open [localhost:5173](http://localhost:5173). Try the API directly:
 
-`make up` starts ES, embeddings, API and the existing frontend with healthchecks, memory limits and persistent volumes. `make seed` embeds/indexes the fixture; reruns skip unchanged vectors/documents. `make down` stops services without removing volumes.
+```sh
+curl -fsS --get http://localhost:5050/api/search \
+  --data-urlencode 'q=lang:python tool for building chatbots' \
+  --data 'mode=hybrid&size=3'
+```
 
-To run the backend outside Docker, copy backend/.env.example to backend/.env, then `npm --prefix backend run build && npm --prefix backend start`. Embeddings run with `uv run --frozen uvicorn services.embedding_service:app --host 127.0.0.1 --port 6001`. Port 6001 is deliberate: Node fetch rejects the original port 6000. Config and defaults are validated at startup; service URLs are supplied through environment variables.
+`make up` starts Elasticsearch, embeddings, the API and the frontend with healthchecks. `make seed` reuses unchanged vectors/documents. `make down` stops the stack and keeps its data volumes. Run `make help` for the command list; see [development](docs/DEVELOPMENT.md) for configuration, host processes and occupied ports.
 
-## What to inspect
+## How search works
 
-| Area | Implementation | Reproduce/check |
+```mermaid
+flowchart LR
+    Q[Query + operators] --> P[Parse and validate]
+    P --> B[BM25 + prefilters]
+    P --> E[Cached query embedding]
+    E --> K[Nested chunk kNN + prefilters]
+    B --> R[Node RRF]
+    K --> R
+    R --> O[Page + passage + rank explanation]
+```
+
+BM25 starts while the query embedding is fetched. Both retrievals apply the same filters before selecting candidates. RRF uses ranks instead of adding scores with incompatible scales. It can still lose a strong result found by just one retriever; the evaluation records five such cases.
+
+The pipeline fetches public repository metadata and READMEs, cleans/chunks text by heading, embeds batches and writes content-hashed documents behind a versioned ES alias. Normalized 384-dimensional vectors use cosine/HNSW. The [design notes](docs/DESIGN.md) explain nested chunks, analyzer choices, bounded pagination and rejected alternatives.
+
+| Capability | Implementation | Check |
 |---|---|---|
-| Ranking | Parallel BM25 and nested chunk kNN; RRF k=60; shared prefilters | `make integration` |
-| Query API | Operators, explicit overrides, modes, bounded pagination, compare/similar/facets | `make smoke` |
-| Pipeline | Adaptive GitHub shards, Public-only ID dedup, checkpoint + ETags, heading chunks, cached normalized batches | `make test` |
-| Failures | Embedding timeout → keyword degradation; breaker, bounded LRU, consistent errors | `make test outage-check` |
-| Observability | Request IDs, stage timings, structured logs, Prometheus | `make smoke` |
-| Production ES | Auth required; read-only key can search but cannot write | `make prod-check` |
-| Dependencies | Locked Python/Node trees, CPU Linux runtime, model revision and image digests pinned | `make audit` |
+| Retrieval | Keyword, semantic and hybrid modes; RRF k=60; shared prefilters | `make integration` |
+| API | Operators, explicit overrides, pagination, compare, similar and cached facets | `make smoke` |
+| Failure handling | Embedding timeout, circuit breaker and explicit keyword fallback | `make outage-check` |
+| Observability | Request IDs, stage timings, structured logs and Prometheus | `make smoke` |
+| Pipeline | Adaptive shards, checkpoints/ETags, normalized batch cache and idempotent bulk writes | `make test seed` |
+| Production ES | Authentication and a read-only API key | `make prod-check` |
 
-[API contract and recorded responses](docs/API.md) · [Design choices and rejected alternatives](docs/DESIGN.md) · [Single-VM deployment](docs/DEPLOY.md) · [Resume bullets and interview answers](docs/PORTFOLIO.md)
+The [API contract](docs/API.md) includes curl examples and captured responses. `/search` remains a compatibility route for the existing frontend. Deep paging is capped at 100 candidates by default; totals describe the bounded retrieval pool.
 
 ## Measured retrieval quality
 
-**Provisional assistant-authored judgments; owner review required.** There are 50 queries covering names, intent, synonyms, acronyms and typos. Grades are 0–2; unlisted repos currently count as zero. These are a regression fixture, not human ground truth or a held-out benchmark. Review `eval/queries.json`, including false zeros, and fill its ownerReview section before presenting quality claims.
+**50 queries, 50 repositories, provisional labels.** Queries cover exact names, intent, synonyms, acronyms and typos. Unlisted repositories count as zero relevance; these judgments are a regression fixture, not human ground truth or a held-out benchmark. Follow the [label-review instructions](eval/README.md) before presenting quality claims.
 
 <!-- eval:start -->
 Recorded 2026-11-04T04:10:48.685Z; 50 queries / 50 repos, provisional labels.
@@ -52,9 +74,7 @@ Recorded 2026-11-04T04:10:48.685Z; 50 queries / 50 repos, provisional labels.
 | weighted-score | 0.8084 | 0.8547 | 0.8717 |
 <!-- eval:end -->
 
-`make eval` runs all four measured variants on the same real ES/model candidate lists and writes [eval/RESULTS.md](eval/RESULTS.md), including five losing queries and per-query ranking evidence. The naive baseline adds 0.5×BM25 + 0.5×ES vector score; its weight was not tuned. Optional cross-encoder and alternate model rows are explicitly unrun. `make eval-check` rejects an absolute nDCG drop greater than 0.05 or a fixture/labels/model/version identity change; `make eval-baseline` replaces the baseline only when explicitly invoked.
-
-Evaluation and load measurement use a recorded 10-second embedding timeout to exclude degraded runs. The public API defaults to 800 ms and serves keyword-only on embedding failure; an initial 800 ms evaluation did abort during model warmup. Warm/cold measurement terms below refer to the query embedding cache, not downloading or starting a model.
+Reproduce with `make eval`. [Full results](eval/RESULTS.md) include five failures and [per-query rankings](eval/fixture-run.json). The naive baseline adds 0.5×BM25 + 0.5×ES vector score without tuning. `make eval-check` checks dataset/model identity and rejects an absolute nDCG drop greater than 0.05. Optional reranking and alternative-model experiments are unrun.
 
 ## Measured local latency
 
@@ -68,30 +88,30 @@ Recorded 2026-11-04T04:13:40.070Z; Apple M5, 16.0 GiB host RAM, 50 repos. Full c
 | cached embeddings | 8 | 32.91 | 48.18 | 61.53 | 233.63 |
 <!-- bench:end -->
 
-`make bench` runs pinned autocannon scenarios against the production Express app with real upstreams. It records machine specs, device/library versions, index bytes, request counts, errors and cache counters in [eval/BENCHMARK.md](eval/BENCHMARK.md) and [raw output](eval/benchmark.json). Each row is a 10-second, single-query run. Rate limits are raised only in the isolated harness; ES caches are not cleared between rows. This is a local fixture measurement, not a production capacity forecast.
+Reproduce with `make bench`. Each row is a 10-second, single-query test against real ES/model services. “Cold” means a query-embedding cache miss after model warmup; ES caches are not cleared. Rate limits are raised only in the harness. These results are not a production capacity forecast. [Full conditions and raw counters](eval/BENCHMARK.md) include machine, model, index size and error counts.
 
-## Data and index lifecycle
+Evaluation and benchmarking use a recorded 10-second embedding timeout and reject degraded runs. The public API defaults to 800 ms and falls back to keyword retrieval when embeddings are unavailable.
 
-```sh
-GITHUB_TOKEN=... make rebuild-data
-```
+## Repository guide
 
-The default config is `scripts/collection.json`: eight languages, star buckets and a created-date interval. Shards with >1,000 results split recursively; an unsplittable single-day/single-star shard fails rather than dropping data. The collector reads full READMEs up to 200 KB, honors rate-limit/reset/retry headers, and persists checkpoints/ETags in ignored data files. Use `uv run --frozen python -m scripts.fetch_repos --refresh` for conditional refreshes. Full collection needs an authenticated quota and may wait for rate resets; no GitHub token was configured in this session.
+| Directory | Responsibility |
+|---|---|
+| [backend/](backend/) | TypeScript API, retrieval, fusion and Node tests |
+| [services/](services/) | FastAPI model service and Python settings |
+| [scripts/](scripts/) | GitHub collection, README chunking, embedding and indexing |
+| [tests/](tests/) | Python tests and shared repository fixture |
+| [eval/](eval/) | Query labels, runners, regression baseline and measured artifacts |
+| [infra/](infra/) | Dockerfiles, nginx and operational checks |
+| [frontend/](frontend/) | React client, maintained separately |
+| [docs/](docs/README.md) | API, design, development, deployment and execution evidence |
 
-The chunker strips Markdown noise and splits by heading, falling back to 220 model-token windows with 32-token overlap. Repo vectors contain name, description, topics and intro; nested README vectors return the best passage. All vectors are explicitly normalized, indexed with cosine/HNSW, and cached by model revision + content. Linux's default wheel/image is CPU-only; host auto-selection uses available PyTorch accelerators (MPS on supported macOS). A CUDA host needs a CUDA-enabled Torch build and a corresponding reviewed lockfile; that hardware path was not tested.
+`make verify` runs lint, unit/property/API tests, actual ES/model integration, endpoint smoke and the evaluation gate. [Recorded verification](docs/evidence/verification.txt) contains the outcomes; [GitHub Actions](https://github.com/sasmith-14/gitgrep/actions) defines CI checks and image builds. See [CONTRIBUTING.md](CONTRIBUTING.md) for change and baseline review, and [DEPLOY.md](docs/DEPLOY.md) for the single-VM configuration. No public deployment is claimed.
 
-The indexer bulk-writes stable repo IDs to versioned indices, skips matching content hashes, reports item failures and moves the `gitgrep` alias only after success. Use a fresh version for a new corpus snapshot: incremental writes to an existing version do not delete records absent from the input. Old indices remain available for rollback. After rebuilding the full corpus, use a separate fixture index/environment for the fixture-only integration/eval commands.
+## Limits and next steps
 
-## Tests and CI
+- Review relevance labels, then collect/evaluate the intended eight-language corpus with a GitHub token. Full collection instructions are in [development](docs/DEVELOPMENT.md#full-corpus-and-index-lifecycle).
+- Evaluate optional reranking and an alternate embedding model after label review. CUDA has not been validated; the Linux image uses CPU Torch.
+- Complete frontend API migration and dependency updates before remote browser deployment. Provision VM/DNS/TLS and confirm remote CI results; local checks do not substitute for those steps.
+- If using a clone from before the history cleanup, re-clone. [Cleanup evidence](docs/evidence/phase-1.md) records the removed artifacts and original remote tip.
 
-`make test` runs Python unit tests and Node unit/property/API tests. The tokenizer gets 1,000 generated Unicode cases and 300 operator-position/override cases. `make integration` uses actual Docker ES and MiniLM, comparing returned IDs/counts to exhaustive fixture predicates across all three modes; it also checks identifier analysis and similar-repo exclusion. `make verify` runs lint, tests, integration, real endpoint smoke checks and the eval gate. [Execution evidence](docs/evidence/verification.txt) records the final commands and outcomes.
-
-GitHub Actions defines those checks, frontend build, dependency audits and image builds. The completed work is published to `sasmith-14/gitgrep`; remote Actions status was not confirmed because the GitHub API returned a rate-limit error. No live deployment URL is claimed. Production ES auth is tested locally with `make prod-check`; read [DEPLOY.md](docs/DEPLOY.md) before using the standalone production Compose file.
-
-## Not done / needs owner attention
-
-- Review the provisional relevance judgments and baseline; collect and evaluate the intended multi-language corpus with your GitHub token.
-- Optional reranker, alternate embedding model and CUDA hardware validation were not run. Grafana JSON was skipped.
-- Provision a VM/DNS/TLS and run the deployment steps. CI is configured but not yet run remotely.
-- Frontend migration and its dependency audit findings remain with the frontend session; its source/lockfile were not changed here.
-- History was rewritten and published to `sasmith-14/gitgrep` with an explicit remote-tip lease after owner authorization. Origin now points to that repository. Existing clone owners should re-clone rather than merge the old history. [Cleanup commands and original remote tip](docs/evidence/phase-1.md) preserve the pre-publication record.
+For interviews, [the portfolio handoff](docs/PORTFOLIO.md) contains five measured resume bullets and six design questions with candid answers.

@@ -64,7 +64,7 @@ The host backend can reach both services on their published local ports. A backe
 GITHUB_TOKEN=... make rebuild-data
 ```
 
-The collector configuration is [scripts/collection.json](../scripts/collection.json): eight languages, star buckets and a created-date interval. Its 4,000-repository target has not been collected. Requests split around GitHub's result cap, respect rate limits and persist checkpoints/ETags. An unsplittable single-day/single-star shard fails explicitly. Conditional refresh uses `uv run --frozen python -m scripts.fetch_repos --refresh`.
+The collector configuration is [scripts/collection.json](../scripts/collection.json): eight languages, star buckets and a created-date interval. The larger local corpus has now collected/indexed 4,000 repositories using scripts/collection.live.json; see [LIVE.md](LIVE.md). The original configuration remains available for separate rebuilds. Requests split around GitHub's result cap, respect rate limits and persist checkpoints/ETags. An unsplittable single-day/single-star shard fails explicitly. Conditional refresh uses `uv run --frozen python -m scripts.fetch_repos --refresh`.
 
 `make rebuild-data` targets `gitgrep-v2` and moves the alias after successful indexing. Use a new version for subsequent corpus snapshots: same-index incremental writes do not delete records missing from the new input. Keep a separate fixture index/environment for integration and evaluation; those checks expect the checked-in 50 repositories. Schema, chunking and model details are in [DESIGN.md](DESIGN.md).
 

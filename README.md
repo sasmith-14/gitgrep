@@ -6,7 +6,7 @@ Gitgrep combines BM25 keyword retrieval with MiniLM semantic search, then merges
 
 [Beginner architecture guide](ARCHITECTURE.md) · [Illustrated PDF](Gitgrep-Architecture.pdf) · [Quickstart](#quickstart) · [API](docs/API.md) · [Design](docs/DESIGN.md) · [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
-The reproducible demo contains **50 real Python repositories**. The collector targets 4,000 repositories across eight languages; that larger collection has not been run. All quality numbers below use provisional assistant-authored labels and require owner review.
+The active local website at [localhost:5174](http://localhost:5174) searches **4,000 public repositories across eight languages**, using balanced retrieval. The checked-in **50-repo Python fixture** remains separate for reproducible tests and relevance evaluation. All quality numbers below refer to that fixture and use provisional labels requiring owner review. [Live dataset, activation and verification](docs/LIVE.md).
 
 ## Quickstart
 
@@ -21,7 +21,7 @@ make seed
 make verify
 ```
 
-Open [localhost:5173](http://localhost:5173). Try the API directly:
+Fresh clones seed the 50-repo fixture and open [localhost:5173](http://localhost:5173). This existing checkout uses the larger corpus on [localhost:5174](http://localhost:5174); follow [LIVE.md](docs/LIVE.md) to reproduce that setup. Try the API directly:
 
 ```sh
 curl -fsS --get http://localhost:5050/api/search \
@@ -59,16 +59,28 @@ The pipeline fetches public repository metadata and READMEs, cleans/chunks text 
 
 The [API contract](docs/API.md) includes curl examples and captured responses. `/search` remains a compatibility route for the existing frontend. Deep paging is capped at 100 candidates by default; totals describe the bounded retrieval pool.
 
-## Balanced retrieval experiment
+## Balanced retrieval
 
-An optional path shortlists repository summary vectors with int8 HNSW, then scores flat passage vectors only within those repositories. Run `make balanced-seed balanced-check`; the live `gitgrep` alias stays unchanged. The [measured comparison](docs/BALANCED.md) explains why chunk search remains the default on the fixture. This is an experiment in bounding vector search work, not a claim of complete GitHub coverage or measured total-RAM savings.
+Balanced retrieval shortlists repository summary vectors with int8 HNSW, then scores flat passage vectors only within those repositories. It is enabled on the larger local website through `gitgrep-live`. The separate 50-repo fixture still uses chunk search; `make balanced-seed balanced-check` reproduces its [comparison](docs/BALANCED.md). See the [live benchmark](eval/LIVE-BENCHMARK.md) for measured latency on 4,000 repos. No complete GitHub coverage or total-RAM reduction is claimed.
 
-## Measured retrieval quality
+## Live corpus measurements
+
+Recorded 2026-11-04T07:12:36.718Z on Apple M5 with 16 GiB host RAM: **4,000 repositories, 96,045 passages**, balanced retrieval. Each scenario is a 10-second single-query run; these are not larger-corpus relevance scores or a production capacity forecast.
+
+| Cache | Connections | p50 ms | p95 ms | p99 ms | req/s |
+|---|---:|---:|---:|---:|---:|
+| cold embeddings | 1 | 43.79 | 51.41 | 59.68 | 22.43 |
+| cached embeddings | 1 | 37.60 | 44.86 | 47.78 | 26.07 |
+| cached embeddings | 8 | 180.79 | 236.67 | 258.22 | 43.04 |
+
+Reproduce: `make live-bench`. [Full conditions and raw counters](eval/LIVE-BENCHMARK.md).
+
+## Fixture retrieval quality
 
 **50 queries, 50 repositories, provisional labels.** Queries cover exact names, intent, synonyms, acronyms and typos. Unlisted repositories count as zero relevance; these judgments are a regression fixture, not human ground truth or a held-out benchmark. Follow the [label-review instructions](eval/README.md) before presenting quality claims.
 
 <!-- eval:start -->
-Recorded 2026-11-04T04:10:48.685Z; 50 queries / 50 repos, provisional labels.
+Recorded 2026-11-04T07:14:25.639Z; 50 queries / 50 repos, provisional labels.
 
 | Mode | nDCG@10 | MRR@10 | Recall@10 |
 |---|---:|---:|---:|
@@ -113,7 +125,7 @@ Evaluation and benchmarking use a recorded 10-second embedding timeout and rejec
 
 ## Limits and next steps
 
-- Review relevance labels, then collect/evaluate the intended eight-language corpus with a GitHub token. Full collection instructions are in [development](docs/DEVELOPMENT.md#full-corpus-and-index-lifecycle).
+- Review relevance labels and build a relevance set for the larger corpus. Collection and live activation commands are in [LIVE.md](docs/LIVE.md); keep larger-corpus quality claims separate from fixture metrics.
 - Evaluate optional reranking and an alternate embedding model after label review. CUDA has not been validated; the Linux image uses CPU Torch.
 - Complete frontend API migration and dependency updates before remote browser deployment. Provision VM/DNS/TLS and confirm remote CI results; local checks do not substitute for those steps.
 - If using a clone from before the history cleanup, re-clone. [Cleanup evidence](docs/evidence/phase-1.md) records the removed artifacts and original remote tip.

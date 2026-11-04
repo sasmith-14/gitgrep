@@ -1,0 +1,56 @@
+{
+  "recordedAt": "2026-11-04T07:13:34.431055+00:00",
+  "runtime": {
+    "index": "gitgrep-live",
+    "strategy": "balanced",
+    "candidates": "200",
+    "cors": "http://localhost:5174"
+  },
+  "containers": [
+    {
+      "BlockIO": "8.39MB / 0B",
+      "CPUPerc": "0.02%",
+      "Container": "1d8378682fb0a6734e6e44b1381d80783742d072fe12c25ac33d53996a4bde10",
+      "ID": "1d8378682fb0",
+      "MemPerc": "17.48%",
+      "MemUsage": "44.74MiB / 256MiB",
+      "Name": "gitgrep-backend-1",
+      "NetIO": "1.16MB / 410kB",
+      "PIDs": "11"
+    },
+    {
+      "BlockIO": "0B / 8.19kB",
+      "CPUPerc": "0.25%",
+      "Container": "c088fac62d2dd359a6d5eae2f02c6c0c85b94ef430b025bb6a242129212585f4",
+      "ID": "c088fac62d2d",
+      "MemPerc": "18.77%",
+      "MemUsage": "384.5MiB / 2GiB",
+      "Name": "gitgrep-embedding-1",
+      "NetIO": "107kB / 1.96MB",
+      "PIDs": "8"
+    },
+    {
+      "BlockIO": "9.88MB / 4.1kB",
+      "CPUPerc": "0.00%",
+      "Container": "64d61b648e39ef81c2b4ac641599f5799c81ec9d3d76c6212f4d0ffab4a28e92",
+      "ID": "64d61b648e39",
+      "MemPerc": "15.16%",
+      "MemUsage": "19.41MiB / 128MiB",
+      "Name": "gitgrep-frontend-1",
+      "NetIO": "2.65kB / 1.59kB",
+      "PIDs": "11"
+    },
+    {
+      "BlockIO": "357MB / 1.14GB",
+      "CPUPerc": "1.45%",
+      "Container": "6efc9447282173c734aa5a1482dbb0e5320837405d5dc032b736ac4bf1b8a601",
+      "ID": "6efc94472821",
+      "MemPerc": "68.49%",
+      "MemUsage": "1.37GiB / 2GiB",
+      "Name": "gitgrep-elasticsearch-1",
+      "NetIO": "928MB / 110MB",
+      "PIDs": "153"
+    }
+  ],
+  "note": "One container memory snapshot; includes other indices and caches, not peak or attributable per-index RAM."
+}

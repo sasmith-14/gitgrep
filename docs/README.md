@@ -3,6 +3,7 @@
 | Document | Purpose |
 |---|---|
 | [Beginner guide](../ARCHITECTURE.md) | Illustrated introduction from basics through advanced search concepts; [PDF](../Gitgrep-Architecture.pdf) |
+| [Live dataset](LIVE.md) | The active 4,000-repo corpus, website activation and validation |
 | [Balanced experiment](BALANCED.md) | Repo shortlisting, flat passage scoring, measurements and activation |
 | [API](API.md) | Public request/response contract, curl examples and captured responses |
 | [Design](DESIGN.md) | Retrieval, indexing, pagination and failure tradeoffs |

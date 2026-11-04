@@ -1,6 +1,6 @@
 # Fixture evaluation
 
-Run: 2026-11-04T04:10:48.685Z. Embedding timeout 10000 ms. 50 queries, 50 repositories. **PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED**. Labels are provisional assistant judgments, not human ground truth. Unlisted repos count as zero for this experiment, so recall is only relative to nominated positives. Owner review is required in queries.json. This tiny Python-only sample is a correctness/regression fixture, not evidence of generalization.
+Run: 2026-11-04T07:14:25.639Z. Embedding timeout 10000 ms. 50 queries, 50 repositories. **PROVISIONAL_ASSISTANT_AUTHORED_OWNER_REVIEW_REQUIRED**. Labels are provisional assistant judgments, not human ground truth. Unlisted repos count as zero for this experiment, so recall is only relative to nominated positives. Owner review is required in queries.json. This tiny Python-only sample is a correctness/regression fixture, not evidence of generalization.
 
 Reproduce: `make eval` after `make seed`. CI: `make eval-check` (absolute nDCG tolerance 0.05 against reviewed-in baseline identity).
 

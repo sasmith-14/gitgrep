@@ -4,6 +4,8 @@ This directory contains recorded observations, not promises about a later run. H
 
 | Record | Contents |
 |---|---|
+| [Live dataset](../../eval/live-dataset.json) | Actual indexed counts, language checks and source hashes |
+| [Live verification](live-verification.txt) | Final tests, live API checks and runtime selection |
 | [Repository cleanup](organization.txt) | Tests before publication, moved operational checks, stack rebuild and repeat seed |
 | [Final acceptance](phase-6.md) | Commands, outcomes and unresolved work from the backend overhaul |
 | [Verification output](verification.txt) | Tests, endpoint smoke, evaluation gate, dependency audits and failure checks |

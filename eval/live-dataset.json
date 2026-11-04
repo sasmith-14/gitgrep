@@ -1,0 +1,69 @@
+{
+  "recordedAt": "2026-11-04T07:19:26.162167+00:00",
+  "repositories": 4000,
+  "languages": {
+    "c++": 500,
+    "go": 500,
+    "java": 500,
+    "javascript": 500,
+    "python": 500,
+    "ruby": 500,
+    "rust": 500,
+    "typescript": 500
+  },
+  "passages": 96045,
+  "indexBytes": 202484995,
+  "alias": "gitgrep-live",
+  "source": "GitHub REST API",
+  "rawSha256": "131402ec2401c7a2488c6677370a92bf0a04a6adc98db36ce629ea0dfe730fb1",
+  "documentsSha256": "b9e3e78f4a64ce81b609bc5e9da21ff67d741273a40e3e3a70d5701cdf736818",
+  "examples": {
+    "python": [
+      "frappe/frappe",
+      "microsoft/autogen",
+      "robotframework/robotframework"
+    ],
+    "javascript": [
+      "framework7io/framework7",
+      "expressjs/express",
+      "tastejs/todomvc"
+    ],
+    "typescript": [
+      "ionic-team/ionic-framework",
+      "alibaba/ice",
+      "eggjs/egg"
+    ],
+    "rust": [
+      "flosse/rust-web-framework-comparison",
+      "yewstack/yew",
+      "actix/actix-web"
+    ],
+    "go": [
+      "gogf/gf",
+      "ent/ent",
+      "cloudwego/eino"
+    ],
+    "java": [
+      "spring-projects/spring-framework",
+      "micronaut-projects/micronaut-core",
+      "asLody/VirtualApp"
+    ],
+    "c++": [
+      "BVLC/caffe",
+      "alibaba/weex",
+      "react/react-native"
+    ],
+    "ruby": [
+      "Arachni/arachni",
+      "trailblazer/trailblazer",
+      "padrino/padrino-framework"
+    ]
+  },
+  "checkedModes": [
+    "keyword",
+    "semantic",
+    "hybrid"
+  ],
+  "websiteCompatibilityRoute": "passed",
+  "degraded": false
+}

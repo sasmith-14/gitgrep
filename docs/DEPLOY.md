@@ -1,6 +1,6 @@
 # One VM deployment
 
-I would run this on one Ubuntu 24.04 VM with 4 vCPU, 8 GiB RAM and at least 40 GiB SSD, Docker Engine + Compose v2, and Caddy on the host. This is an operational starting budget, not a measured capacity guarantee for the uncollected full corpus. I did not provision a VM or publish a live URL.
+I would run this on one Ubuntu 24.04 VM with 4 vCPU, 8 GiB RAM and at least 40 GiB SSD, Docker Engine + Compose v2, and Caddy on the host. This is an operational starting budget, not a measured capacity guarantee for the larger corpus. I did not provision a VM or publish a live URL.
 
 `docker-compose.prod.yml` is a standalone file, not an override of the development file. ES authentication is explicitly enabled; ES and the embedding service have no host ports. Internal HTTP is limited to the VM's Docker bridge. Caddy terminates public TLS. If services move to separate hosts, enable ES HTTP/transport TLS before doing so. Keep ports 5050/5173 loopback-only, and allow inbound 80/443 (SSH from an admin address only). Set vm.max_map_count=1048576 persistently before starting ES.
 
@@ -52,7 +52,7 @@ curl -fsS http://127.0.0.1:5050/readyz
 curl -fsS 'http://127.0.0.1:5050/api/search?q=fastapi&size=1'
 ```
 
-The sample is appropriate for deployment checks. For a full corpus, collect with GITHUB_TOKEN on a trusted machine, generate vectors with `make rebuild-data` against a dedicated target, and move the resulting artifact securely to the VM's pipeline volume. Do not expose a write key in the public API image. Full collection was not run in this session. The provided rebuild target is intended for an explicit ES_INDEX/environment; do not run it against a live alias until you have reviewed the new corpus.
+The sample is appropriate for deployment checks. For a full corpus, collect with GITHUB_TOKEN on a trusted machine, generate vectors with `make rebuild-data` against a dedicated target, and move the resulting artifact securely to the VM's pipeline volume. Do not expose a write key in the public API image. The local 4,000-repository corpus has since been collected and indexed; see docs/LIVE.md. Deployment to this VM is still unrun. The provided rebuild target is intended for an explicit ES_INDEX/environment; do not run it against a live alias until you have reviewed the new corpus.
 
 Use Caddy's automatic HTTPS and send API traffic directly to the API's single trusted proxy hop:
 

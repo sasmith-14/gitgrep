@@ -2,7 +2,7 @@
 
 A beginner's guide to how this project collects repositories, understands a query and returns results. Start with chapters 1-6, then follow the implementation and experiments. Diagrams show logical components, not necessarily separate machines.
 
-This guide describes implemented behavior. The demo contains 50 Python repositories. The balanced design is available as an experiment, while the existing chunk search remains the default because it was faster in the measured small-fixture comparison. Larger-corpus coverage, scheduling and on-demand discovery are future work.
+This guide describes implemented behavior. The active local website at http://localhost:5174 uses balanced retrieval over 4,000 public repositories across eight languages. A separate 50-repo Python fixture remains for reproducible tests and evaluation. Scheduled refreshes and on-demand discovery remain future work.
 
 Reading map: 1 - purpose; 2 - system diagram; 3 - collection; 4 - keyword search; 5 - vectors; 6 - balanced retrieval; 7 - rank fusion; 8 - filters and pages; 9 - reliability; 10 - storage and deployment; 11 - measurement; 12 - code walkthrough and next steps.
 
@@ -33,7 +33,7 @@ The frontend collects input and displays results. The Node API validates request
 
 The pipeline is a separate workflow. It fetches public repositories, prepares text, generates vectors and indexes documents. Query vectors and document vectors must use the same model and revision. Two different models may output 384 numbers without producing comparable coordinates.
 
-The browser talks to Node. Node talks to ES and the model. Development ports are frontend 5173, API 5050, embeddings 6001 and ES 9200. Containers use internal service hostnames between themselves. An existing frontend server can coexist with the Compose frontend on 5174; CORS must match the origin used in the browser.
+The browser talks to Node. Node talks to ES and the model. Default development ports are frontend 5173, API 5050, embeddings 6001 and ES 9200. The active local frontend uses 5174 because another application occupies 5173. Containers use internal service hostnames between themselves. An existing frontend server can coexist with the Compose frontend on 5174; CORS must match the origin used in the browser.
 
 Read backend/src/app.ts for routes, backend/src/search.ts for retrieval, services/embedding_service.py for model serving, scripts/ for ingestion and infra/ for Docker and operational checks. Docker Compose can put these components on one machine; the diagram does not require six servers.
 
@@ -53,7 +53,7 @@ A checkpoint saves completed work for resumption after interruption. An ETag is 
 
 README downloads are capped. Images, badges, HTML noise and table-of-contents links are cleaned. Headings supply passage context. Long sections split into windows of 220 model tokens, with 32-token overlap. A token is a model-recognized text piece, not necessarily a word. Overlap helps preserve ideas crossing chunk boundaries.
 
-A content hash identifies unchanged text. SQLite caches embeddings by text/model identity. Bulk indexing sends batches of documents. For much larger collections, whole-JSON checkpoint rewriting and full-file indexing should become incremental/streamed. The current collector targets 4,000 repos across eight languages, but that full collection has not run.
+A content hash identifies unchanged text. SQLite caches embeddings by text/model identity. Bulk indexing sends batches of documents. For much larger collections, whole-JSON checkpoint rewriting and full-file indexing should become incremental/streamed. The live collector has completed 4,000 repos across eight languages. Downloads use eight paced workers, and checkpoints flush every 20 new repos plus page boundaries. Interrupted work may replay a small cached remainder.
 
 ## 04. Keyword search and BM25
 
@@ -89,13 +89,13 @@ flowchart LR
     D --> E[Semantic ranked list]
 ```
 
-The balanced index uses one int8 HNSW summary vector per repo. The summary combines name, description, topics and README introduction. The first stage shortlists REPO_CANDIDATES repos, default 200, with enough candidates retained for the configured pagination depth.
+The active balanced index uses one int8 HNSW summary vector per repo. The summary combines name, description, topics and README introduction. The first stage shortlists REPO_CANDIDATES repos, default 200, with enough candidates retained for the configured pagination depth.
 
 The second stage compares the query with passages only in shortlisted repos. Passages use a flat vector format with no passage HNSW graph. Exact cosine scoring selects the best passage for each repo. Both stages enforce the same constraints. Full passage vectors still exist on disk; fewer graph-indexed vectors is not a measured total-memory saving.
 
 The tradeoff is important: two sequential ES calls add overhead, and exact scoring grows with shortlisted repos, passage counts and dimensions. A repo missed by its summary cannot be recovered even if a later README passage would be perfect.
 
-Our fixture contains only 50 repos, fewer than the default shortlist. Equal relevance here therefore does not establish shortlist recall at scale. The measured comparison kept the old chunk search as default. Read docs/BALANCED.md for results and reproducible commands. SEARCH_STRATEGY=balanced enables the alternative against its own index.
+Our fixture contains only 50 repos, fewer than the default shortlist. Equal relevance here therefore does not establish shortlist recall at scale. The fixture comparison kept chunk search as its default. The larger website now explicitly selects SEARCH_STRATEGY=balanced against gitgrep-live. Read docs/BALANCED.md for fixture results and docs/LIVE.md for active-corpus checks and measurements.
 
 ## 07. Rank fusion and explanations
 
@@ -185,6 +185,6 @@ The balanced experiment measures 50 queries in three alternating rounds: 150 req
 
 Learn by comparing modes for the same query, then adding a language filter. Use make outage-check to observe fallback and recovery; it briefly stops and then restores the embedding container.
 
-Before expanding coverage, review labels, collect a corpus larger than the shortlist, vary the candidate budget and run mixed-query concurrent tests. Measure actual RAM, page cache, disk, relevance and cold/warm latency. Scheduled refreshes and asynchronous GitHub discovery remain future work. Complete GitHub coverage is not claimed.
+The 4,000-repo corpus now exceeds the default 200-repo shortlist. Next, review larger-corpus labels, vary the candidate budget and run mixed-query concurrent tests. Measure actual RAM, page cache, disk, relevance and cold/warm latency. Scheduled refreshes and asynchronous GitHub discovery remain future work. Complete GitHub coverage is not claimed.
 
 Further reading: docs/API.md, docs/DESIGN.md, docs/DEPLOY.md, docs/BALANCED.md and eval/README.md. Primary references: https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/approximate-knn-search and https://docs.github.com/en/rest/search/search.

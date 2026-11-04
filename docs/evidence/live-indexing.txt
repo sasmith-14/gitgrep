@@ -1,0 +1,7 @@
+Actual final output from the cached-snapshot generation/indexing run. Reproduce the final source-to-index steps with make live-seed.
+
+embed 3998 gregnavis/active_record_doctor chunks=36 new_vectors=37
+embed 3999 Shopify/packwerk chunks=13 new_vectors=13
+embed 4000 will/slacktyping chunks=1 new_vectors=2
+{"index": "gitgrep-live-v1", "documents": 4000, "changed": 4000, "failed": 0}
+LIVE INDEX READY

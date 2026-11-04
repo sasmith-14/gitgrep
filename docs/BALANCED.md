@@ -2,7 +2,7 @@
 
 Recorded 2026-11-04T06:01:00.875Z. **Provisional assistant-authored labels; owner review required.**
 
-The balanced path is implemented and opt-in. It shortlists repositories using int8 HNSW summary vectors, then computes exact passage cosine scores only within those repositories. Passage vectors use a flat index, avoiding passage HNSW graphs. This changes internal retrieval and index layout; the public API contract is unchanged.
+The balanced path is enabled on the larger local website. The fixture comparison below is historical; [LIVE.md](LIVE.md) describes the 4,000-repo activation. The default fresh-checkout fixture remains separate. It shortlists repositories using int8 HNSW summary vectors, then computes exact passage cosine scores only within those repositories. Passage vectors use a flat index, avoiding passage HNSW graphs. This changes internal retrieval and index layout; the public API contract is unchanged.
 
 ## Measured comparison
 
@@ -41,7 +41,7 @@ For Compose, ES_INDEX and SEARCH_STRATEGY are environment-configurable. Leave th
 
 ## Next evidence needed
 
-Collect a reviewed corpus larger than the shortlist; evaluate budgets such as 100, 200 and 500; measure mixed-query concurrent latency, cold filesystem behavior and actual memory with isolated deployments. A missing first-stage candidate cannot be recovered by passage rescoring. GitHub refresh scheduling, on-demand discovery, full-corpus collection and all-GitHub coverage are not implemented by this experiment.
+Collect a reviewed corpus larger than the shortlist; evaluate budgets such as 100, 200 and 500; measure mixed-query concurrent latency, cold filesystem behavior and actual memory with isolated deployments. A missing first-stage candidate cannot be recovered by passage rescoring. A 4,000-repository collection has since been completed and activated separately. GitHub refresh scheduling, on-demand discovery and all-GitHub coverage remain unimplemented.
 
 ## Beginner guide and PDF reproduction
 

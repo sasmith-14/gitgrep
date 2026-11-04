@@ -1,0 +1,62 @@
+name: gitgrep-prod
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.3@sha256:851ff5f9615ab7d2f00931114f6db32850f0208ec9fe7e841f135ac78f5f13d5
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "true"
+      xpack.security.http.ssl.enabled: "false"
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:?Set a strong ELASTIC_PASSWORD in .env.prod}
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+    volumes: [es-prod-data:/usr/share/elasticsearch/data]
+    mem_limit: 3g
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, "curl -fsS -u elastic:$$ELASTIC_PASSWORD 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=2s' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+  embedding:
+    build: {context: ., dockerfile: infra/embedding.Dockerfile}
+    environment: {MODEL_DEVICE: cpu}
+    volumes: [pipeline-prod-data:/app/data, embedding-prod-cache:/app/.cache]
+    mem_limit: 2g
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:6001/health',timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+  backend:
+    build: {context: ., dockerfile: infra/backend.Dockerfile}
+    environment:
+      ES_URL: http://elasticsearch:9200
+      EMBED_URL: http://embedding:6001
+      ES_API_KEY: ${ES_API_KEY:?Set a read-only encoded ES API key}
+      CORS_ORIGIN: ${CORS_ORIGIN:?Set the public HTTPS origin}
+      TRUST_PROXY_HOPS: "1"
+    ports: ["127.0.0.1:5050:5050"]
+    mem_limit: 256m
+    restart: unless-stopped
+    depends_on: {elasticsearch: {condition: service_healthy}, embedding: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5050/readyz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+  frontend:
+    build: {context: ., dockerfile: infra/frontend.Dockerfile}
+    ports: ["127.0.0.1:5173:8080"]
+    mem_limit: 128m
+    restart: unless-stopped
+    depends_on: {backend: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+volumes:
+  es-prod-data:
+  pipeline-prod-data:
+  embedding-prod-cache:

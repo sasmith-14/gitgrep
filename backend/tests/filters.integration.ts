@@ -36,3 +36,17 @@ test('real ES: prefiltered semantic/keyword counts equal exhaustive fixture chec
   assert.ok(similar.results.every(r=>r.id!==String(repos[0].id)));
   await assert.rejects(search.similar('99999999999999999',10,timings()),(e:any)=>e.code==='NOT_FOUND');
 });
+
+test('real ES: quoted phrases and exclusions prefilter both lists',async()=>{
+  const search=new Search(readConfig({...process.env,EMBED_TIMEOUT_MS:'10000'}));
+  for (const mode of ['keyword','semantic','hybrid']) {
+    const included=await search.search(validateInput({q:'"FastAPI"',mode,size:'50'},100),timings());
+    assert.equal(included.degraded,false);
+    assert.ok(included.results.some(r=>r.fullName==='fastapi/fastapi'));
+    const excluded=await search.search(validateInput({q:'lang:Python -"FastAPI"',mode,size:'50'},100),timings());
+    assert.equal(excluded.degraded,false);
+    const disallowed=new Set(included.results.map(r=>r.id));
+    assert.ok(excluded.results.every(r=>!disallowed.has(r.id)));
+    assert.equal(included.total+excluded.total,50);
+  }
+});

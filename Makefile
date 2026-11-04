@@ -38,3 +38,24 @@ integration:
 smoke:
 	$(UV) run --frozen python -m scripts.smoke
 verify: lint test integration smoke eval-check
+
+.PHONY: prod-check
+prod-check:
+	python3 -m scripts.check_prod
+
+.PHONY: audit
+audit:
+	npm audit --prefix backend --audit-level=low
+	mkdir -p .cache
+	$(UV) export --frozen --no-dev --no-emit-project -o .cache/requirements.txt > /dev/null
+	$(UV) tool run --from pip-audit==2.9.0 pip-audit -r .cache/requirements.txt --disable-pip --no-deps
+
+.PHONY: hygiene
+hygiene:
+	test ! -d venv
+	git rev-parse --is-inside-work-tree
+	! git rev-list --objects --all | rg ' (venv/|node_modules/|backend/node_modules/|data/repos(_with_embeddings)?\.json$$)'
+
+.PHONY: outage-check
+outage-check:
+	$(UV) run --frozen python -m scripts.check_degradation

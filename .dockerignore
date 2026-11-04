@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+**/node_modules
+**/dist
+.cache
+data
+.env
+**/.env
+**/.env.*
+!**/.env.example
+docs/evidence
+eval/runs

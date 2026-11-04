@@ -1,8 +1,57 @@
+name: gitgrep
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.3@sha256:851ff5f9615ab7d2f00931114f6db32850f0208ec9fe7e841f135ac78f5f13d5
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    ports:
-      - "9200:9200"
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports: ["127.0.0.1:9200:9200"]
+    volumes: [es-data:/usr/share/elasticsearch/data]
+    mem_limit: 2g
+    healthcheck:
+      test: [CMD-SHELL, "curl -fsS 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=2s' >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+  embedding:
+    build: {context: ., dockerfile: infra/embedding.Dockerfile}
+    environment: {MODEL_DEVICE: cpu}
+    ports: ["127.0.0.1:6001:6001"]
+    mem_limit: 2g
+    volumes: [pipeline-data:/app/data, embedding-cache:/app/.cache]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:6001/health',timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+  backend:
+    build: {context: ., dockerfile: infra/backend.Dockerfile}
+    environment:
+      ES_URL: http://elasticsearch:9200
+      EMBED_URL: http://embedding:6001
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+    ports: ["127.0.0.1:5050:5050"]
+    mem_limit: 256m
+    depends_on: {elasticsearch: {condition: service_healthy}, embedding: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5050/readyz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+  frontend:
+    build: {context: ., dockerfile: infra/frontend.Dockerfile}
+    ports: ["127.0.0.1:${FRONTEND_PORT:-5173}:8080"]
+    mem_limit: 128m
+    depends_on: {backend: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+volumes:
+  es-data:
+  pipeline-data:
+  embedding-cache:

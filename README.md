@@ -4,7 +4,7 @@
 
 Gitgrep combines BM25 keyword retrieval with MiniLM semantic search, then merges the two ranked lists using Reciprocal Rank Fusion in Node. Results include the matching passage, relative highlight offsets and an explanation of each retriever's rank.
 
-[Quickstart](#quickstart) · [API](docs/API.md) · [Design](docs/DESIGN.md) · [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
+[Beginner architecture guide](ARCHITECTURE.md) · [Illustrated PDF](Gitgrep-Architecture.pdf) · [Quickstart](#quickstart) · [API](docs/API.md) · [Design](docs/DESIGN.md) · [Documentation](docs/README.md) · [Contributing](CONTRIBUTING.md)
 
 The reproducible demo contains **50 real Python repositories**. The collector targets 4,000 repositories across eight languages; that larger collection has not been run. All quality numbers below use provisional assistant-authored labels and require owner review.
 
@@ -58,6 +58,10 @@ The pipeline fetches public repository metadata and READMEs, cleans/chunks text 
 | Production ES | Authentication and a read-only API key | `make prod-check` |
 
 The [API contract](docs/API.md) includes curl examples and captured responses. `/search` remains a compatibility route for the existing frontend. Deep paging is capped at 100 candidates by default; totals describe the bounded retrieval pool.
+
+## Balanced retrieval experiment
+
+An optional path shortlists repository summary vectors with int8 HNSW, then scores flat passage vectors only within those repositories. Run `make balanced-seed balanced-check`; the live `gitgrep` alias stays unchanged. The [measured comparison](docs/BALANCED.md) explains why chunk search remains the default on the fixture. This is an experiment in bounding vector search work, not a claim of complete GitHub coverage or measured total-RAM savings.
 
 ## Measured retrieval quality
 

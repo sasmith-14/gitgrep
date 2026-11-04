@@ -61,3 +61,9 @@ Images are multi-stage, slim and non-root. Base image digests, ES version and al
 The final dependency audit also found the benchmark's hyperid → uuid 8 transitive dependency affected by a buffer-bounds advisory. A narrow override pins uuid 11.1.1; hyperid uses Node's crypto.randomUUID on the supported runtime, and the actual autocannon scenarios exercise that path. Production and development backend audits then reported zero known vulnerabilities. The frontend's separate dependency tree was installed/built but left unchanged; its audit findings belong to the frontend session.
 
 The collector explicitly searches is:public and refuses any record without private=false before writing a checkpoint, so an overprivileged GitHub token cannot silently publish private repositories. Older checkpoints without visibility evidence require a refresh. A unit test asserts that rejected records never reach either output file.
+
+## Balanced retrieval experiment
+
+I compared globally indexed chunk HNSW with repository-first shortlisting and exact passage scoring. The isolated balanced index uses int8_hnsw for summaries and flat passage vectors, avoiding a passage HNSW graph. An initial index:false passage format increased disk usage substantially, so I replaced it with flat indexed vectors. The two-stage path reapplies all filters and retains the response contract and passage-relative highlights. Candidate count is at least MAX_DEPTH+1.
+
+The fixture is smaller than the default shortlist, so its equal relevance scores cannot validate summary-pruning recall at scale. Two sequential retrieval calls were slower in the recorded fixture comparison; the original chunk path therefore remains the default. docs/BALANCED.md records the final numbers, caveats and opt-in commands. No actual process-RAM reduction is claimed.

@@ -2,6 +2,8 @@
 
 | Document | Purpose |
 |---|---|
+| [Beginner guide](../ARCHITECTURE.md) | Illustrated introduction from basics through advanced search concepts; [PDF](../Gitgrep-Architecture.pdf) |
+| [Balanced experiment](BALANCED.md) | Repo shortlisting, flat passage scoring, measurements and activation |
 | [API](API.md) | Public request/response contract, curl examples and captured responses |
 | [Design](DESIGN.md) | Retrieval, indexing, pagination and failure tradeoffs |
 | [Development](DEVELOPMENT.md) | Commands, configuration, local service workflow and troubleshooting |
